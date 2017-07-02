@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+//基本类型
+var mood = "happy",age = 23;
+mood = "happy"
+mood = 22;
+mood = 33.25;
+mood = ture;
+alert(mood);
+
+
+//数组
+var arr = Array();
+
+arr = Array(4);
+
+arr[0] = 'John';
+arr[1] = 33;
+arr[2] = 33.25;
+arr[3] = true;
+
+arr = Array("John",33,33.25,true);
+
+arr = ["John",33,33.25,true];
+
+//关联数组
+arr = Array();
+arr["name"] = "John";
+arr["year"] = 33;
+arr["living"] = true;
+
+
+//对象
+var san = Object();
+san.name =  "zwsanc";
+san.year = 1994;
+san.living = true;
+//另一种语法-花括号
+san = {};
+san = {name:"zwsanc",year:1994,living:ture};
+san.length;//数组长度属性
+
+//数组关联对象
+var ts = Array();
+ts[0] = san;
+ts[0].name;//等于zwsanc
+
+//对象关联对象
+ts = {};
+ts.san = san;
+ts.san.name;//等于zwsanc
+
+
+//if 中的"==="全等比较符
+if(""){}//fasle
+if(false == ""){}//true
+if(false === ""){}//fasle
+if("1" = 1){}//true
+if("1" === 1){}//fasle
+
+
+// 函数
+function say(){
+	alert('hello!');
+}
+say();
+
+function mul(num1,num2){
+	alert(num1*num2);
+}
+
+// JS中使用调用函数的位置只要在全局变量声明之后便可以使用该全局变量
+// 但是函数调用可以在函数声明之前.这点跟java相同
+say2();
+function say2(){
+	if(temp == undefined){
+		alert("1");
+	}else{
+		alert(temp);
+	}
+}
+var temp = "I'm a employee.";
+say2();
+
+
+// 对象进阶-属性与方法
+person.mood;
+person.age;
+
+person.talk();
+person.walk();
+
+// js中对象分为三种:1.內建对象(native object) 2.宿主对象(host object) 3.用户定义对象(user-defined object)
+// 1.內建对象
+var carr = new Array();
+carr.length;//对象属性
+
+// Math对象与Date对象
+alert(Math.round(10));//随机0~10
+var current_date = new Date();
+current_date.getDay();
+current_date.getHours();
+current_date.getMonth();
+
+// Global对象
+Global.isNaN();
+Global.parseInt();
+Global.eval();
+Global.Number();
+
+
+
+// 宿主对象 由运行环境(浏览器)提供的预定义对象.
+// window,screen等
+
+// DOM(document object model)对象,是宿主对象window的子对象.
+// window.document进行访问.
+// HTML文档采用的是子级标签法,所以可以展示成树形结构图.
+// DOM Element-可以为元素节点或者是下级的文本节点,文本节点,注释节点等.
+// DOM Attribute-Element的属性.
+// DOM Event-Element的事件
+
+
+
+
+// 用户对象
+var person = {...};
+
+
+
+
+
+// JS代码在使用时最好是DOM树加载完成时,当浏览器生成DOM树后会调用window.onload事件.
+// 多次访问DOM树会造成页面响应速度的下降,尽可能的减少节点的标记(id,class等)可以提升DOM树在遍历时的速度.
+
+// JS脚本尽可能的写在js文件中通过外联的方式访问,而不是内嵌在html文档中(尽可能的做好分离).
+// 当JS脚本有多个时,推荐合并成一个以减少http请求数.
+
+// 写完的js脚本要压缩可以减少不少的体积.jquery.min.js.
+
+a.onclick = function{
+	alert('aaa');
+}
+$('a').click(function(){
+	alert('aaa');
+});
+
+// 页面的重要内容应该一开始便放在文档中,而不是通过js动态加载,这样搜索引擎才能更容易爬到.
+
+// abbr标签可以起到提示的作用
+
+// js从DOM获得信息的方法
+getElementById();
+getElementByTagName();
+getAttribute();
+
+// js向DOM添加信息
+createElement();
+createTextNode();
+appendChild();
+insertBefore();
+setAttrbute();
+
+// html的三位一体
+// -html
+// 	结构层(html)-文档基本结构.文档的结构要尽量简单,层级要少,element要少.
+// 	表现层(css)-页面样式,色彩,风格,视觉效果.
+// 	行为层(js)-用户行为响应.
+
+//每一层起着不同的作用,尽可能不要通过js直接修改页面样式(通过style属性),而是通过修改element的class属性来进行样式变更.
+
+// js的平稳退化,指js在低版本浏览器上也可以正常的展示,至少不破坏页面交互.
+
+// CND服务(Content Delevery Network,内容分发网络),将第三方js库托管至第三方服务器,在引用第三方js库时使用公共URL路径,用户在访问时,CDN跟根据用户所在的地理位置找到距离用户最近的服务器提供相应文件.
+
+
+/*********下面是js进阶教程*********/
+/*********下面是js进阶教程*********/
+/*********下面是js进阶教程*********/
+
+// 一个完整的JavaScript应该由三个部分构成:
+// 1.核心(ECMAScript)
+// 2.文档对象(DOM)
+// 3.浏览器对象(BOM)
+
+// ECMA(European Computer Manufactures Association,欧洲计算机制造联合会)制定了标准化的JavaScript实现,称为EMCAScript.以后各个浏览器制造商都要按照这个标准实现.
+// W3C(World Wide Web Consortium,万维网联盟)制定了标准化的DOM结构.
+DOM级别
+DOM level 1:DOM Core和DHTML组成,DOM Core心规定的是如何映射基于 XML 的文档结构，以便简化对文档中任意部分的访问和操作。DOM HTML 模块则在 DOM 核心的基础上加以扩展，添加了针对 HTML 的对象和方法。
+DOM level 2:DOM2在DOM1的基础上扩充了-鼠标和用户界面事件,范围,遍历等模块.通过对象接口增加了对CSS的支持.
+DOM2新增模块:
+-DOM Views:定义了跟踪不同文档视图的接口(例如,应用css前后的文档).
+-DOM Events:定义了事件和事件处理接口.
+-DOM Style:定义了基于css为元素应用样式的接口.
+-DOM 遍历和范围（DOM Traversal and Range）：定义了遍历和操作文档树的接口。
+
+----Script标签
+script的两个属性:
+	async-异步脚本,表示应该立即下载脚本,但不应妨碍页面中的其他操作，比如下载其他资源或等待加载其他脚本。只对外部脚本文件有效。
+	defer-延迟脚本,表示应该立即下载脚本,但可以延迟到文档完全被解析和显示之后再执行。只对外部脚本文件有效.
+
+只要不存在 defer 和 async 属性，浏览器都会按照<![CDATA[<script>]]>元素在页面中出现的先后顺序对它们依次进行解析。
+
+
+script与img标签都可以通过src属性访问页面所在域之外的某个域中的文件(例如CDN服务).
+
+----head 与 body标签.
+如果将js,css文件引用放在head标签中,意味着必须等到全部的代码被下载/解析和执行完成,才能开始呈现内容.
+因为浏览器在读取到body标签后才会在浏览器上显示内容.
+
+故,一般都将js文件放在body标签最后(css文件则需要放在head标签内,元素在呈现时必须显示正确的样式).
+
+----浏览器是如何解析HTML文件的.(具体信息请搜索:HTML解析原理)
+从上到下依次解析,执行到script标签时,会通过src路径下载js文件
+(
+	期间会一直处于阻塞状态,如果script标签使用了async属性,则不再阻塞浏览器异步执行该脚本.
+	如果script标签使用了defer属性,还是会阻塞直到js文件被下好,然后不执行js脚本,在文档被加载完成后才会执行.
+),
+执行完js文件中的代码后才会继续向下执行.
+
+----js的严格模式,"use strict";在函数内部第一行,或是js文件第一行添加该代码.
+
+----js全局变量的三种声明方式:
+1.js脚本内部:var a = 5;该变量在该脚本内部的任意位置(声明位置之后)都可以调用.
+2.函数内部:(应该杜绝的声明方式)
+function say(){
+	a = 3;//该变量为全局变量-在严格模式下会出现异常.
+	var b = 5;//局部变量,函数结束后会销毁.
+}
+3.使用window全局对象声明(全局对象的属性对应也是全局变量)
+window.test = 50;
+jquery1.5代码最后一段:window.jQuery = window.$ = jQuery;
+
+*如果不是万不得已，最好不要使用全局变量。
+
+
+----ECMAScript的数据类型
+	五种基本数据类型:Undefined,Null,boolean,number,string.
+	引用数据类型:Object,Array,Boolean,Date,Math,Number,String,RegExp,Function,Event
+
+----typeof返回值
+	undefined-值未定义
+	boolean-值为布尔
+	string-值为字符串
+	number-值为数字
+	object-值为对象或null
+	function-值为函数
+
+----instanceof
+if(person instanceof Object) 
+var person = new Object(); =>true;
+var person = null; =>true;
+var person = 5; => false;
+
+
+----六种类型的if判断
+1.undefined
+var a;--变量a以声明未赋值 所以 typeof的结果为 undefined.
+if(a) => fasle;
+if(a == undefined) => true;
+
+2.null
+var a = null;--typeof 结果为object
+if(a) => fasle;
+if(a == null) => true;
+if(a == undefined) => true;--undefined是null派生的.
+if(a === undefined) => false;--undefined与null是不同的基本类型.
+
+3.boolean
+var a = true;
+if(a) => a;
+
+4.String
+var a = '';
+if(a) => false;
+if(a == '') => true;
+if(a == null) => false; --null是object类型使用的
+if(a === '') => true;
+if(a === null) => false;--string与null不是同一个基本类型.
+
+5.Number
+var a = +-0;
+if(a) => false;
+if(a == '') => true;
+if(a == '0') => true;
+if(a == null) => false; --null是object类型使用的
+if(a === '') => false; --基本类型不同
+
+
+
+
+----关于一些顶级函数的说明.
+1.isNaN
+if(NaN) => false;
+if(NaN == NaN) => false;--任何涉及到NaN的运算(四则运算和逻辑运算)都会返回NaN
+
+isNaN(1|'1'|true|false|null) => false;
+isNaN('blue'|undefined) =>true;
+
+2.parseInt
+var num1 = parseInt("1234blue"); // 1234
+var num2 = parseInt(""); // NaN
+var num3 = parseInt("0xA"); // 10（十六进制数）
+var num4 = parseInt(22.5); // 22
+var num5 = parseInt("070"); // 56（八进制数）
+var num6 = parseInt("70"); // 70（十进制数）
+var num7 = parseInt("0xf"); // 15（十六进制数）
+
+3.parseFloat
+var num1 = parseFloat("1234blue"); //1234 （整数）
+var num2 = parseFloat("0xA"); //0
+var num3 = parseFloat("22.5"); //22.5
+var num4 = parseFloat("22.34.5"); //22.34
+var num5 = parseFloat("0908.5"); //908.5
+var num6 = parseFloat("3.125e7"); //31250000
+
+4.String()
+var value1 = 10;
+var value2 = true;
+var value3 = null;
+var value4;
+alert(String(value1)); // "10"
+alert(String(value2)); // "true"
+alert(String(value3)); // "null"
+alert(String(value4)); // "undefined"
+
+alert(value1.toString()); // "10"
+alert(value2.toString()); // "true"
+alert(value3.toString()); // 没有返回值
+alert(value4.toString()); // 没有返回值
+
+以下关于js操作符,变量,类型的比较以及常用函数,类型转换就不再描述.
+
+----js for-in语句.
+for-in 语句是一种精准的迭代语句，可以用来枚举对象的属性。
+for (var propName in window) { //迭代window对象的全部属性名.不一定就是顺序(非ArrayList)输出.
+	document.write(propName);
+}
+
+----label,break,continue关键字,参考java.
+
+----with语句.大量使用with语句会使性能下降,并且严格模式下无法使用with语句,所以不推荐使用.
+var qs = location.search.substring(1);
+var hostName = location.hostname;
+var url = location.href;
+<==>
+with(location){
+	var qs = search.substring(1);
+	var hostName = hostname;
+	var url = href;
+}
+
+
+----js的function
+function sayHi(name,message){
+	return ; // 'return ;'的返回值为undefined.
+	alert('Hello '+name+','+message); // return后面的代码不会被执行.规范化的函数应当只有一个出口和入口.
+}
+
+函数的参数,实际上JS函数并不介意声明函数时所声明的参数个数.实际上js底层是通过arguments对象来封装函数传参的.
+我们能通过arguments[x]的形式来访问参数,即使不声明函数参数.
+
+例如:
+function sayHi(){
+	alert('Hello '+arguments[0]+','+arguments[1]);
+}
+或:
+function sayHi(name){ // 命名的参数只提供便利，但不是必需的
+	alert('Hello '+name+','+arguments[1]);
+}
+sayHi('san','how are you today?');
+
+其实arguments.length属性可以获得参数数量,该对象只是与Array对象类似,但他并不是数组实例.
+
+因为js function 没有返回标识与传参声明标识(函数/方法签名),导致该语言无法拥有重载特性,相同命名的函数后面的会覆盖前面的.
+
+
+----js的变量(object)
+变量可以为基本类型或引用类型.
+
+这点跟java相似,在存储基本类型时存储的是值,存储引用类型时存储的是对象在堆内存中的引用.所以引用变量的赋值操作会将引用赋值过去.
+var person = new Object();
+var san = person;
+person.name = 'san';
+alert(san.name); => san.
+
+跟java不同的是,在js中string为基本类型.
+
+----js变量执行环境.
+执行环境(execution context)与java的变量作用域概念类似.
+执行环境分为两种:
+全局执行环境(web浏览器中,全局执行环境被认为是window对象,因此所有全局变量和函数都是作为window对象的属性和方法创建的,当网页或浏览器被关闭时,全局执行环境才会被销毁.)
+局部执行环境(函数内部,局部执行环境中的代码执行完毕后,该环境会被销毁,保存在其中的所有变量和函数定义也随之销毁.)
+
+当代码在一个环境中执行时,会创建变量对象的一个作用域链(scope chain),作用域链的用途，是保证对执行环境有权访问的所有变量和函数的有序访问。
+
+例如: 子执行环境可以调用父执行环境的变量.反之不行.
+var a = 1;
+function sayHi(){
+	var b = 2;
+	function sayHii(){
+		var c = 3;
+		alert(b); // 
+	}
+	sayHii();
+}
+window
+	-a
+	sayHi
+		-b
+		sayHii
+			-c
+			-alert(b)
+变量寻找会自下而上依次查询.
+
+
+
+----js没有块级作用域概念,在if,for,while等代码块中生成的变量在当前函数中可以正常访问.
+if (true) {
+	var color = "blue";
+}
+alert(color); //"blue"
+
+
+----js垃圾回收机制
+1.标记清除法-当变量进入环境（例如，在函数中声明一个变量）时，就将这个变量标记为“进入环境”。当变量离开环境时，则将其标记为“离开环境”。回收器会间隔性的回收标记为'离开环境'的变量所引用的堆内存
+2.引用计数法-记录每个对象(堆内存地址)的被引用次数,当被引用次数为0时,自动销毁该对象(堆内存).
+	引用计数因为循环引用所带来的弊端被标记清除法所取代.
+循环引用:
+function problem(){
+	var objectA = new Object();
+	var objectB = new Object();
+	objectA.someOtherObject = objectB;
+	objectB.anotherObject = objectA;
+}
+
+
+----js引用类型
+1.Object
+-初始化
+var person = new Object(); <==> var person = {}; //与 new Object()相同
+person.name = "Nicholas"; <==> person['name'] = "Nicholas"; // 代码作用相同
+person.age = 29;
+-字面量初始化
+var person = {
+	name : "Nicholas",
+	age : 29,
+	5 : true // 数字会自动转换为字符串.
+};
+
+-字面量传参
+function sayHi(person){
+	alert(person.name+','+person.age);
+}
+sayHi({
+	name:'san',
+	age:23
+}); // 太6了.
+
+
+person.name = "Nicholas"; <==> person['name'] = "Nicholas"; // 代码作用相同
+或是
+var propertyName = 'name';
+person[propertyName] = 'san'; --有点像java中的反射操作.
+
+
+2.Array类型,js的数组是不限定数组类型的,数组长度是动态的.
+var name = new Array(); <==> name = Array(); <==> name = []; //代码作用相同
+
+name[name.length] = 'san'; // 在数组末尾插入新变量.
+name.length = 5; // 如果数组长度低于5,则新增至5,用undefined插入.反之则只保留前5个变量.
+
+----转化方法
+var colors = ["red", "blue", "green"]; // 创建一个包含 3 个字符串的数组
+alert(colors.toString()); // red,blue,green
+alert(colors.valueOf()); // red,blue,green
+alert(colors); // red,blue,green
+alert(colors.join("||")); //red||green||blue
+
+----数组,栈
+js-Array类型提供了栈的方法.push,pop;
+var colors = new Array(); // 创建一个数组
+var count = colors.push("red", "green"); // 推入两项
+alert(count); //2
+count = colors.push("black"); // 推入另一项
+alert(count); //3
+var item = colors.pop(); // 取得最后一项
+alert(item); //"black"
+alert(colors.length); //2
+
+----数组,队列,shift,unshift.
+var colors = new Array(); //创建一个数组
+var count = colors.push("red", "green"); //推入两项
+alert(count); //2
+count = colors.push("black"); //推入另一项
+alert(count); //3
+var item = colors.shift(); //取得第一项
+alert(item); //"red"
+alert(colors.length); //2
+
+unshift方法可以在队列开头插入变量,与pop一同使用可以实现反向队列.
+
+
+----数组重排序,reverse(反转数组),sort(将数组中的值toString后排序.)
+
+var values = [0, 1, 5, 10, 15];
+values.sort();
+alert(values); //0,1,10,15,5
+
+-
+function compare(value1, value2) {
+	if (value1 < value2)
+		return -1;
+	else if (value1 > value2)
+		return 1;
+	else
+		return 0;
+}
+var values = [0, 1, 5, 10, 15];
+values.sort(compare); // 传入方法.
+alert(values); //0,1,5,10,15
+
+
+----Array其他api-1.concat,2.slice,3.indexOf,4.lastIndexOf,5.every,6.filter,7.forEach,8.map,9.some,10.reduce,11.reduceRight
+
+
+3.Date类型,没什么好说的,自己去查API.
+
+4.RegExp类型,正则表达式类型,详情自己去看文档.
+Boolean,Number,String,Math自己去看文档.
+
+5.Funtion类型,js中最有意思的类型,而有意思的根源，则在于函数实际上是对象。每个函数都是 Function 类型的实例，而且都与其他引用类型一样具有属性和方法。
+函数对象的三种声明方式:
+function sum (){ // 函数声明式
+	return arguments[0]+arguments[1];
+}
+<==>
+var sum = function(){ // 变量赋值式
+	return arguments[0]+arguments[1];
+};
+<==>
+var sum = new Function('return arguments[0]+arguments[1]'); // 不推荐,这种语法会导致解析两次代码,从而影响性能
+var sum = new Function('a','b','return a+b'); 
+
+函数可以作为传参.
+function domethod(method,property){ // 传入需要执行函数与属性,与java反射差不多
+	method(property);
+}
+var sayHi = function(name){ // 定义函数
+	alert('Hi '+name+' , how are you today?');
+};
+domethod(sayHi,'san');
+
+匿名函数传参.碉堡了.666
+domethod(function(name){
+	alert('Hi '+name+' , how are you today?');
+},'san');
+
+想想jquery不就是这样的么!
+$(function(){...});
+
+'函数声明式'与'变量赋值式'初始化函数的区别!
+js解析器在正式执行代码之前会先预读一遍代码,将其中的函数提取出来将它们放在源代码顶部,但'变量赋值式'则不会.
+
+alert(sum(10,10)); //不会报错
+function sum(num1, num2){ 
+	return num1 + num2;
+}
+
+alert(sum(10,10)); //报错
+var sum = function(num1, num2){ 
+	return num1 + num2;
+};
+
+
+----返回值为函数
+
+function createComparisonFunction(propertyName) { // 根据对象的不同属性,返回不同的排序方式.
+	return function(object1, object2){
+		var value1 = object1[propertyName];
+		var value2 = object2[propertyName];
+		if (value1 < value2){
+			return -1;
+		} else if (value1 > value2){
+			return 1;
+		} else {
+			return 0;
+		}
+	};
+}
+var data = [{name: "Zachary", age: 28}, {name: "Nicholas", age: 29}];
+data.sort(createComparisonFunction("name"));
+alert(data[0].name); //Nicholas
+data.sort(createComparisonFunction("age"));
+alert(data[0].name); //Zachary
+
+
+----函数的两个属性.arguments,this
+在函数内部，有两个特殊的对象： arguments 和 this。其中， arguments 
+它是一个类数组对象，包含着传入函数中的所有参数。虽然 arguments 的主要用途是保存函数参数，
+但这个对象还有一个名叫 callee 的属性，该属性是一个指针，指向拥有这个 arguments 对象的函数。
+function factorial(num){
+	if (num <=1) {
+		return 1;
+	} else {
+		return num * arguments.callee(num-1)
+	}	
+}
+
+this.this引用的是函数执行的环境对象——或者也可以说是 this 值（当在网页的全局作用域中调用函数时，this 对象引用的就是 window）
+window.color = "red";
+var o = { color: "blue" };
+function sayColor(){
+	alert(this.color);
+}
+sayColor(); //"red"
+o.sayColor = sayColor;
+o.sayColor(); //"blue"
+
+
+----函数的length,property属性,sayHi.length=>sayHi函数声明的传参个数.property属性后面说明.
+
+----函数的apply(),call()方法,两个方法的调用方式略微有点不同,但执行结果都是相同的.其目的都是让行为(函数)与主体(对象)解耦.
+
+var name = 'gobal';
+var person = {name:'san'};
+function say(){
+	alert(this.name); // this.name 表示调用函数当前执行环境下名为name的变量.
+}
+say(); -- gobal.当前函数的执行环境是全局环境,this所代表的对象是window,name属性指的便是window.name.=gobal
+
+person.say = say;
+person.say(); -- san.当前函数的执行环境是局部环境,this代表的对象是person.
+
+--上面使用this的方式,让方法在不同的环境下有不同的输出.也就是说随着方法this的对象的改变,方法会获得不同输出.从而实现方法与对象的解耦
+--上面的方法中 person.say = say; 意味着将sqy函数的this指向person对象.
+
+而apply,call方法则封装了这一步.
+say.call(this); --gobal.
+say.call(person); --san.
+var car = {name:'benz'};
+say.call(car); --benz.
+
+call与apply方法还可以传参.
+
+
+
+----顶级函数,eval();
+js解析器在执行到eval函数时,会将eval代码插入当前行,然后执行插入的语句.通过 eval()执行的代码被认为是包含该次调用的执行环境的一部分，因此被执行的代码具有与该执行环境相同的作用域链。
+
+
+
+
+-----js面向对象设计.
+ECMA-262 把对象定义为：“无序属性的集合，其属性可以包含基本值、对象或者函数。”
+
+var person = new Object();
+person.name = "Nicholas";
+person.age = 29;
+person.job = "Software Engineer";
+person.sayName = function(){
+	alert(this.name);
+};
+
+var person = {
+	name: "Nicholas",
+	age: 29,
+	job: "Software Engineer",
+	sayName: function(){
+		alert(this.name);
+	}
+};
+
+var person = {name:'san',age:23};
+delete person.name; --delete 可以删除对象的属性
+alert(person.name);	--undefined
+
+----ECMAScript 中有两种属性：数据属性和访问器属性。特性比较超前部分老版浏览器只实现了部分,详情见文档157页
+
+
+----对象的两种模板化创建方式
+1.工厂模式.
+function createPerson(name, age, job){
+	var o = new Object();
+	o.name = name;
+	o.age = age;
+	o.job = job;
+	o.sayName = function(){
+		alert(this.name);
+	};
+	return o;
+}
+var person = createPerson('san',23,'Software Engineer');
+
+createPeroson函数还可以简写-
+function createPerson(name, age, job){
+	return {
+		name:name,
+		age:age,
+		job:job,
+		sayName:function(){alert(this.name);}
+	};
+}
+
+
+2.构造函数模式. 以构造模式定义的函数(Person)是定义在window对象(全局环境)中的.在各个地方都能调用.而工厂方式则只是普通函数.
+function Person(name, age, job){
+	this.name = name;
+	this.age = age;
+	this.job = job;
+	this.sayName = function(){
+		alert(this.name);
+	};
+}
+var person = new Person('san',23,'Software Engineer');
+if(person.constructor == Person) => true;  //对象的constructor属性最初是用来标识对象类型的
+if(person.constructor == Object) => false;
+if(person instanceof Person) => true;
+if(person instanceof Object) => true;
+
+
+Person('san',23,'Software Engineer');--不添加修饰符new,是将该对象(堆内存)中的属性,添加到对应执行环境中.比如window
+
+var p = {other:'hi'};
+Person.call(p,'san',23,'Software Engineer');--通过call方法可以将对象(堆内存)中的属性,添加到该对象中.
+p.sayName();
+
+弊端,每次创造对象时,sayName函数便会跟着创建一次(开辟内存地址,java有方法区所以方法都是通用的).造成性能浪费
+解决方法,将方法拿出来写在当前执行环境上.
+function Person(name, age, job){
+	this.name = name;
+	this.age = age;
+	this.job = job;
+	this.sayName = sayName;
+}
+function sayName(){
+	alert(this.name);
+}
+var a = new Person('san',23,'Software Engineer');
+var b = new Person('san',23,'Software Engineer');
+if(a.sayName == b.sayName) =>true,引用的方法都是同一个.
+
+
+----JS原型对象(property)
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+	function ins(){
+		function Person(name, age, job){
+			this.name = name;
+			this.age = age;
+			this.job = job;
+			this.sayName = function(){alert(this.name);};
+		}
+
+		// function sayName(){
+			
+		// }
+
+		var a = new Person('san',23,'Software Engineer');
+		var b = new Person('san',23,'Software Engineer');
+		alert(a instanceof Person);
+		
+	}
+	
+	var hi = ins;
+
+	window.hi();
+	// ins();
+
+	// alert(person.job);
+</script>
+
+</body>
+</html>

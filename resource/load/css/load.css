@@ -1,0 +1,53 @@
+#bonfire-pageloader {
+	background-color:#fff;
+	-webkit-transition: opacity .4s;
+	-o-transition: opacity .4s;
+	transition: opacity .4s;
+}
+/* loading icon color */
+#bonfire-pageloader svg {
+	fill:#54ceec;
+}
+#bonfire-pageloader {
+	position:fixed;
+	z-index:99999999999999;
+	width:100%;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	margin-top:-50px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+/* the loading icon */
+.bonfire-pageloader-icon {
+	width:100px;
+	height:100px;
+	margin:100px 0 0 0;
+	opacity:1;
+	top:0;
+	text-align: center;
+	color: #fff;
+
+	margin:0 auto;
+}
+#bonfire-pageloader svg {
+    -webkit-animation:spin 2s linear infinite;
+    -moz-animation:spin 2s linear infinite;
+    animation:spin 2s linear infinite;
+	width:100px;
+	height:100px;
+}
+.bonfire-pageloader-hide{
+	opacity: 0;
+}
+.bonfire-pageloader-dis{
+	display:none!important;
+}
+
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }

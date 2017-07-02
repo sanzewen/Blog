@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!--图标引入-->
+	<link rel="shortcut icon" href="../resource/blog/img/favicon.ico" type="image/x-icon" />
+	<!--字体引入-->
+	<link href='http://cdn.webfont.youziku.com/webfonts/nomal/102717/45817/59195b91f629d804184c4e0a.css' rel='stylesheet' type='text/css' />
+
+	<link href="../resource/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<!-- 灯箱css -->
+	<link href="../resource/lightcase/css/lightcase.css"  type="text/css" rel="stylesheet">
+
+
+	<link href="../resource/blog/css/main.css" type="text/css" rel="stylesheet">
+	<link href="../resource/blog/css/readblog.css" type="text/css" rel="stylesheet">
+	<link href="../resource/blog/css/sidebar-switch.css" type="text/css" rel="stylesheet">
+	
+	<!-- 对话弹窗 -->
+	<link href="../resource/blog/css/remodal.css" type="text/css" rel="stylesheet">
+	<!-- loading.css -->
+	<link href="../resource/load/css/load.css" type="text/css" rel="stylesheet">
+	<!-- font.css -->
+	<link href="../resource/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	
+	<!-- 	<script type="text/javascript" src="../resource/blog/js/jquery-3.2.1.js"></script> -->
+	<!-- jquery.js -->
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="../resource/blog/js/tojson.js"></script>
+	
+	<!-- load层 -->
+	<script type="text/javascript" src="../resource/load/js/load.js"></script>
+	<!-- bootstrap.js -->
+	<script type="text/javascript" src="../resource/bootstrap/js/bootstrap.min.js"></script>
+	<!-- 灯箱js,放大图片 -->
+	<script type="text/javascript" src="../resource/lightcase/js/jquery.events.touch.js"></script>
+	<script type="text/javascript" src="../resource/lightcase/js/lightcase.js"></script>
+	
+	<!-- waves.js波浪效果 -->
+	<link rel="stylesheet" type="text/css" href="http://developer.qietu.com/docs/waves.js/waves.min.css?v=0.7.4">
+	<script type="text/javascript" src="http://developer.qietu.com/docs/waves.js/waves.min.js?v=0.7.1"></script>
+	<title>个人主页</title>
+</head>
+<body style="overflow-y: hidden;">
+	<!--loding层-->
+	<div id="bonfire-pageloader">
+		<div class="bonfire-pageloader-icon">
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+				 width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+			<path id="loading-12-icon" d="M291,82.219c0,16.568-13.432,30-30,30s-30-13.432-30-30s13.432-30,30-30S291,65.65,291,82.219z
+				 M261,404.781c-15.188,0-27.5,12.312-27.5,27.5s12.312,27.5,27.5,27.5s27.5-12.312,27.5-27.5S276.188,404.781,261,404.781z
+				 M361.504,113.167c-4.142,7.173-13.314,9.631-20.487,5.489c-7.173-4.141-9.631-13.313-5.49-20.487
+				c4.142-7.173,13.314-9.631,20.488-5.489C363.188,96.821,365.645,105.994,361.504,113.167z M188.484,382.851
+				c-14.348-8.284-32.697-3.368-40.98,10.98c-8.285,14.349-3.367,32.696,10.98,40.981c14.35,8.283,32.697,3.367,40.98-10.981
+				C207.75,409.482,202.834,391.135,188.484,382.851z M421.33,184.888c-8.368,4.831-19.07,1.965-23.901-6.404
+				c-4.832-8.368-1.965-19.07,6.404-23.902c8.368-4.831,19.069-1.964,23.9,6.405C432.566,169.354,429.699,180.056,421.33,184.888z
+				 M135.399,329.767c-8.285-14.35-26.633-19.266-40.982-10.982c-14.348,8.285-19.264,26.633-10.979,40.982
+				c8.284,14.348,26.632,19.264,40.981,10.98C138.767,362.462,143.683,344.114,135.399,329.767z M436.031,277.249
+				c-11.044,0-20-8.953-20-19.999c0-11.045,8.955-20.001,20.001-20.001c11.044,0,19.999,8.955,19.999,20.002
+				C456.031,268.295,447.078,277.249,436.031,277.249z M115.97,257.251c-0.001-16.57-13.433-30.001-30.001-30.002
+				c-16.568,0.001-29.999,13.432-30,30.002c0.001,16.566,13.433,29.998,30.001,30C102.538,287.249,115.969,273.817,115.97,257.251z
+				 M401.333,364.248c-10.759-6.212-14.446-19.97-8.234-30.73c6.212-10.759,19.971-14.446,30.731-8.233
+				c10.759,6.211,14.445,19.971,8.232,30.73C425.852,366.774,412.094,370.46,401.333,364.248z M135.398,184.736
+				c8.285-14.352,3.368-32.698-10.98-40.983c-14.349-8.283-32.695-3.367-40.981,10.982c-8.282,14.348-3.366,32.696,10.981,40.981
+				C108.768,204,127.115,199.082,135.398,184.736z M326.869,421.328c-6.902-11.953-2.807-27.242,9.148-34.145
+				s27.243-2.806,34.146,9.149c6.902,11.954,2.806,27.243-9.15,34.145C349.059,437.381,333.771,433.284,326.869,421.328z
+				 M188.482,131.649c14.352-8.286,19.266-26.633,10.982-40.982c-8.285-14.348-26.631-19.264-40.982-10.98
+				c-14.346,8.285-19.264,26.633-10.98,40.982C155.787,135.017,174.137,139.932,188.482,131.649z"/>
+			</svg>
+		</div>
+	</div>
+	<!-- 导航栏 -->
+	<div class="nav-fake"></div>
+	<div class="nav row noselect">
+		<!-- logo -->
+		<div class="nav-logo">
+			<span class="logo-font">Blog</span>
+		</div>
+		<!-- 导航标签 -->
+		<div class="nav-menu">
+			<ul class="menu-ul">
+				<li class="menu-item"><u class="menu-item-u--choose"></u><a class="menu-item-a a-choose" href="#">博客</a></li>
+				<li class="menu-item"><u></u><a class="menu-item-a" href="#">故事</a></li>
+				<li class="menu-item"><u></u><a class="menu-item-a" href="#">动态</a></li>
+				<li class="menu-item"><u></u><a class="menu-item-a" href="#">留言</a></li>
+				<!-- 					<li class="menu-item menu-item-sign"><a class="menu-item-sign" href="#">登陆</a>/<a class="menu-item-sign" href="#">注册</a></li> -->
+			</ul>
+		</div>
+		<div class="sidebar-switch-main">
+			<div class="sidebar-switch red">
+				<div class="sidebar-switch-warpper">
+					<div class="sidebar-switch-line"></div>
+					<span class="sidebar-switch-btn"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 展示栏 -->
+	<div class="content-container">
+		<div class="row entry-content">
+		<!-- 博文展示 -->
+		<div class="content-main col-md-9">
+			<div class="article">
+				<div class="article-header">
+					<div class="article-header-titleimg"><img src="../resource/blog/img/title.jpg" style="max-width:100%;" alt=""></div>
+					<div class="article-header-title">Legion：基于Haskell开发的极简区块链服务器</div>
+					<div class="article-header-author">
+						<a href="#"><img class="author-avatar" src="../resource/blog/img/avatar.png" alt=""></a>
+						<div class="author-info">
+							<a class="author-name" href="#">Reload</a>
+							<div class="author-meta">
+								<span class="meta-publish-time" data-hover-title="最后编辑于 2017.06.12 22:16">2017.06.12 21:04</span>
+								<span>&nbsp;</span>
+								<span class="meta-length">字数 2265</span>
+								<span>&nbsp;</span>
+								<span class="meta-views-count">阅读 10642</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="article-content">
+					<p>这个一个源于<a href="https://github.com/lhartikk/naivechain" target="_blank">naivechain</a>的极简区块链服务器项目，开发语言为Haskell。通过启动多个Legion节点来创建一个点对点网络，从而使得网络上的区块链得到同步。</p>
+					<p>前提条件：要编译源代码，你需要使用<a href="https://docs.haskellstack.org/en/stable/README/">stack</a>。</p>
+					<p>或者，你也可以获取预编译的<a href="https://github.com/aviaviavi/legion/releases">预发布二进制文件</a>。 注意：如果你是从github下载二进制文件，则需要通过运行以下命令来把它标记为可执行文件：</p><pre><code>$ chmod +x legion-exe</code></pre>
+					<h3>用法:</h3><pre><code>$ stack exec legion-exe [http port] [p2p port] [optional: `seedhost:seedP2PPort`]</code></pre>
+					<h3>例子:</h3><pre><code>$ stack exec legion-exe 8001 9001</code></pre>
+					<p>默认情况下，legion会把输出到标准输出的内容记录下来。在另一个终端窗口中执行：</p><pre><code>$ stack exec legion-exe 8002 9002 localhost:9001</code></pre>
+					<p>或者，你可以从github获取二进制文件并直接运行，而不是通过<code>stack exec</code>来运行。</p>
+					<p>第三个参数告诉节点从哪里可以找到一个种子节点来引导到点对点网络的连接。你可以从任何一台服务器上获取到区块链的当前状态，它将自动保持更新，并将自己的更新状态发送给其他节点。</p>
+					<p>现在，两个节点已经同步了，你可以从<a href="http://localhost:$httpPort/chain">http://localhost:$httpPort/chain</a>这样的地址查看当前的区块链，例如：<a href="http://localhost:8001/chain">http://localhost:8001/chain</a></p>
+					<p>通过发送POST请求到/block来向区块链添加一个新的区块：</p>
+					<p></p><pre><code>$ curl -H "Content-Type: application/json" -X POST -d '{"blockBody": "this is the data for the next block"}' http://localhost:8001/block</code></pre>
+				</div>
+				<div class="article-contributes"></div>
+				<div class="article-footer">
+					<div class="article-footer-tagzone">
+						<div class="footer-tag ">Legion</div><div class="footer-tag ">Haskell</div><div class="footer-tag ">编程</div>
+					</div>
+					<div class="article-footer-bangzone"></div>
+					<div class="article-footer-categories">
+						<div class="footer-categories-head">
+							<div class="footer-categories-font">文章属于以下分类</div>
+							<div class="footer-categories-line"></div>
+						</div>
+						<div class="footer-categories-body"><span class="footer-categories-name">简单的块链实现</span></div>
+					</div>
+				</div>
+				<div class="article-comment">
+					<div class="article-comment-title">
+						<div class="comment-title-font">4条评论</div>
+						<div class="comment-title-line"></div>
+					</div>
+					<div class="article-comment-editor">
+						<img class="editor-author-avatar" src="../resource/blog/img/avatar.png" alt=""><!-- <div class="editor-editorzone"></div> <--><textarea class="editor-editorzone" placeholder="写下你的评论..."></textarea></-->
+						<div class="article-editor-btnList">
+							<div class="editor-btnList-warpper"><button class="editor-btnCancel">取消</button><div class="split"></div><button class="editor-btnSend"></button></div>
+						</div>
+					</div>
+					<div class="article-comment-list">
+						<div class="comment-item">
+							<img class="comment-item-author" src="../resource/blog/img/comment-avatar2.jpg" alt="">
+							<div class="comment-item-body">
+								<div class="comment-item-head"><span class="comment-head-authorName">牛羊与疯马<span class="comment-head-replyTo"><span class="comment-head-replySplit">回复</span>盐石</span></span><span class="comment-head-replyList"><span class="comment-replyList-icon"><i class="fa fa-comments-o"></i></span>查看对话</span></div>
+								<div class="comment-item-content">
+									白学惨案烈士之一，前来拜访！<br>
+									真理的卫士是杀不绝的！<br>
+									冬马党的屠刀永远不可能垄断真相！<br>
+								</div>
+								<div class="comment-item-foot">
+									<div class="comment-foot-time"><span class="meta-comment-time" data-hover-title="评论于 2017.06.12 09:56">7小时前</span></div><div class="comment-foot-btnList">
+										<div id="comment-reply-btn" class="comment-reply-btn">
+											<span class="comment-reply-font">回复</span><i class="comment-reply-icon fa fa-comment-o"></i>
+										</div>
+									</div><div class="comment-foot-btnList">
+										<div class="comment-bang-btn">
+											<span class="comment-bang-font">点赞</span><i class="comment-bang-icon fa fa-star"></i>
+										</div>
+									</div>
+									<div class="comment-bangs">183 赞</div>
+								</div>
+								<div class="comment-item-inlineReply" id="comment-item-inlineReply">
+									<div class="article-comment-editor">
+										<img class="editor-author-avatar" src="../resource/blog/img/avatar.png" alt=""><!-- <div class="editor-editorzone"></div> <--><textarea class="editor-editorzone" placeholder="写下你的评论..."></textarea></-->
+										<div class="article-editor-btnList">
+											<div class="editor-btnList-warpper"><button id="editor-btnCancel" class="editor-btnCancel">取消</button><div class="split"></div><button class="editor-btnSend"></button></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="comment-selectLine"><span class="selectLine-font">以上为精选评论</span></div>
+						<div class="comment-item">
+							<img class="comment-item-author" src="../resource/blog/img/comment-avatar.jpg" alt="">
+							<div class="comment-item-body">
+								<div class="comment-item-head"><span class="comment-head-authorName">盐石</span></div>
+								<div class="comment-item-content">
+									小众论坛就继续小众，人多就变味了。
+								</div>
+								<div class="comment-item-foot">
+									<div class="comment-foot-time"><span class="meta-comment-time" data-hover-title="评论于 2017.06.12 08:44">8小时前</span></div><div class="comment-foot-btnList">
+										<div class="comment-reply-btn">
+											<span class="comment-reply-font">回复</span><i class="comment-reply-icon fa fa-comment-o"></i>
+										</div>
+									</div><div class="comment-foot-btnList">
+										<div class="comment-bang-btn">
+											<span class="comment-bang-font">点赞</span><i class="comment-bang-icon fa fa-star-o"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="comment-item">
+							<img class="comment-item-author" src="../resource/blog/img/comment-avatar.jpg" alt="">
+							<div class="comment-item-body">
+								<div class="comment-item-head"><span class="comment-head-authorName">盐石<span class="comment-head-replyTo"><span class="comment-head-replySplit">回复</span>牛羊与疯马</span></span><span class="comment-head-replyList"><span class="comment-replyList-icon"><i class="fa fa-comments-o"></i></span>查看对话</span></div>
+								<div class="comment-item-content">
+									从长期尺度来看，我们都是要消失的。在正确的时候消失，胜于苟延残喘晚节不保。
+								</div>
+								<div class="comment-item-foot">
+									<div class="comment-foot-time"><span class="meta-comment-time" data-hover-title="评论于 2017.06.12 09:56">7小时前</span></div><div class="comment-foot-btnList">
+										<div class="comment-reply-btn">
+											<span class="comment-reply-font">回复</span><i class="comment-reply-icon fa fa-comment-o"></i>
+										</div>
+									</div><div class="comment-foot-btnList">
+										<div class="comment-bang-btn">
+											<span class="comment-bang-font">点赞</span><i class="comment-bang-icon fa fa-star"></i>
+										</div>
+									</div>
+									<div class="comment-bangs">2 赞</div>
+								</div>
+							</div>
+						</div>
+						<div class="comment-item">
+							<img class="comment-item-author" src="../resource/blog/img/comment-avatar2.jpg" alt="">
+							<div class="comment-item-body">
+								<div class="comment-item-head"><span class="comment-head-authorName">牛羊与疯马<span class="comment-head-replyTo"><span class="comment-head-replySplit">回复</span>盐石</span></span><span class="comment-head-replyList"><span class="comment-replyList-icon"><i class="fa fa-comments-o"></i></span>查看对话</span></div>
+								<div class="comment-item-content">
+									不可能的，所有小众论坛最后的下场无一例外都是消失。因为老成员慢慢就疲惫了，失去热情。
+								</div>
+								<div class="comment-item-foot">
+									<div class="comment-foot-time"><span class="meta-comment-time" data-hover-title="评论于 2017.06.12 09:56">7小时前</span></div><div class="comment-foot-btnList">
+										<div class="comment-reply-btn">
+											<span class="comment-reply-font">回复</span><i class="comment-reply-icon fa fa-comment-o"></i>
+										</div>
+									</div><div class="comment-foot-btnList">
+										<div class="comment-bang-btn">
+											<span class="comment-bang-font">点赞</span><i class="comment-bang-icon fa fa-star-o"></i>
+										</div>
+									</div>
+									<div class="comment-bangs"></div>
+								</div>
+							</div>
+						</div>
+						<div class="article-comment-pagination">
+							<button class="comment-paginationBtn comment-paginationBtn--prev">上一页</button><button class="comment-paginationBtn">1</button><button class="comment-paginationBtn--current">2</button><button class="comment-paginationBtn">3</button><span class="comment-paginationBtn--fake">...</span><button class="comment-paginationBtn">13</button><button class="comment-paginationBtn comment-paginationBtn--next">下一页</button>
+						</div>
+					</div>
+				</div>
+				<div class="article-recommend"></div>
+			</div>
+		</div>
+
+		<!-- 侧边栏 -->
+		<div class="content-sidebar noselect col-md-3">
+			
+			<!--搜索框-->
+			<div class="sidebar-form">
+				<form action="">
+					<input type="text" class="sidebar-search" placeholder="Search here..."/>
+					<button type="submit" class="sidebar-search-btn" id="search-btn"></button>
+				</form>
+			</div>
+			
+			<!--系列类别-->
+			<div class="sidebar-categories">
+				<h4 class="categories-title">系列类别</h4>
+				<ul class="categories-ul">
+					<li class="categories-li">
+						<a href="#" class="categories-name">建站记录</a>
+						<span class="categories-count">-12</span>
+					</li>
+					<li class="categories-li">
+						<a href="#" class="categories-name">机器学习笔记</a>
+						<span class="categories-count">0</span>
+					</li>
+					<li class="categories-li">
+						<a href="#" class="categories-name">服务器架构</a>
+						<span class="categories-count">4</span>
+					</li>
+					<li class="categories-li">
+						<a href="#" class="categories-name">前端技术集合</a>
+						<span class="categories-count">24</span>
+					</li>
+					<li class="categories-li">
+						<a href="#" class="categories-name">百味书屋</a>
+						<span class="categories-count">99+</span>
+					</li>
+					<li class="categories-li">
+						<a href="#" class="categories-name">未分类</a>
+						<span class="categories-count">124</span>
+					</li>
+				</ul>
+				<div class="sidebar-readmore"><label for="sidebar-categories-click" class="sidebar-readmore-label">...</label></div>
+			</div>
+			<!--标签-->
+			<div class="sidebar-tags">
+				<h4 class="tags-title">标签</h4>
+				<div class="tag-cloud">
+					<a class="tag-cloud-link" href="#">动物</a>
+					<a class="tag-cloud-link" href="#">设计</a>
+					<a class="tag-cloud-link" href="#">音乐</a>
+					<a class="tag-cloud-link" href="#">新闻</a>
+					<a class="tag-cloud-link" href="#">旅行</a>
+					<a class="tag-cloud-link" href="#">未分类</a>
+				</div>
+				<div class="sidebar-readmore"><label for="sidebar-tags-click" class="sidebar-readmore-label">...</label></div>
+			</div>
+			<!--文章存档-->
+			<div class="sidebar-archive">
+				<h4 class="archive-title">文章存档</h4>
+				<ul class="archive-ul">
+					<input type="checkbox" id="archive-list-click1" style="display: none;">
+					<li class="month-list">
+						<label for="archive-list-click1" class="archive-yser-month">2016年 12月</label><span class="month-count">11</span>
+						<div class="list-borderline"></div>
+						<div class="archive-btn">
+							<span class="btn-line btn-line1"></span>
+							<span class="btn-line btn-line2"></span>
+							<span class="btn-line btn-line3"></span>
+						</div>
+					</li>
+					<input type="checkbox" id="archive-list-click2" style="display: none;">
+					<li class="month-list">
+						<label for="archive-list-click2" class="archive-yser-month">2016年 09月</label><span class="month-count">9</span>
+						<div class="list-borderline"></div>
+						<div class="archive-btn">
+							<span class="btn-line btn-line1"></span>
+							<span class="btn-line btn-line2"></span>
+							<span class="btn-line btn-line3"></span>
+						</div>
+					</li>
+					<input type="checkbox" id="archive-list-click3" style="display: none;">
+					<li class="month-list">
+						<label for="archive-list-click3" class="archive-yser-month">2016年 07月</label><span class="month-count">99+</span>
+						<div class="list-borderline"></div>
+						<div class="archive-btn">
+							<span class="btn-line btn-line1"></span>
+							<span class="btn-line btn-line2"></span>
+							<span class="btn-line btn-line3"></span>
+						</div>
+					</li>
+					<input type="checkbox" id="archive-list-click4" style="display: none;">
+					<li class="month-list">
+						<label for="archive-list-click4" class="archive-yser-month">2016年 05月</label><span class="month-count">25</span>
+						<div class="list-borderline"></div>
+						<div class="archive-btn">
+							<span class="btn-line btn-line1"></span>
+							<span class="btn-line btn-line2"></span>
+							<span class="btn-line btn-line3"></span>
+						</div>
+					</li>
+				</ul>
+				<div class="sidebar-readmore"><label for="sidebar-archive-click" class="sidebar-readmore-label">...</label></div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!--返回顶部-->
+	<div class="sh-toTop">
+		<a id="top" class="toTop-a">
+			<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+				<line x1="0" y1="18" x2="12" y2="4"/>
+				<line x1="12" y1="4" x2="24" y2="18"/>
+			</svg>
+		</a>
+	</div>
+	<!-- 聊天栏 -->
+	<div class="chats">
+		<div class="chats-container">
+			<div class="chats-container-inner container-inner--hover container-inner--close">
+				<header class="chats-head chats-head--close noselect">
+					<div class="head-inner">
+						<span class="head-text head-text--close">Chats!</span>
+							
+					</div>
+				</header>
+				<div class="container-main-wrapper main-wrapper--close">
+					<div class="container-main">
+						<div></div>
+						<div class="chats-message-wrapper">
+							<div class="message-body">message this here...</div>
+						</div>
+						<div class="chats-input-wrapper">
+							<div class="input-area-wrapper">
+								<textarea class="input-area" placeholder="介绍自己"></textarea>
+							</div>
+							<div class="input-button-wrapper">
+								 <button class="input-button btn btn-primary" type="button"><i class="fa fa-send-o"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 网站尾部标志栏 -->
+	<div class="sh-footer">
+		<div class="sh-copyrights">
+			<div class="sh-detail">
+				<div class="sh-close">
+					<span>Close</span>
+				</div>
+			</div>
+			<div class="sh-readmore"><span>RedeMore</span></div>
+			<div class="sh-table-cell">
+				<span class="sh-copyrights-span">Blog built by <span class="footer-author"><strong>San</strong></span>. Email: <abbr title="如果对网站有好的建议请发邮件给我！">sanzewen@163.com</abbr></span>	
+			</div>
+		</div>
+	</div>
+
+	<!-- 对话弹窗 -->
+	<div class="popup">
+		<div class="popup_backdrop"></div>
+		<div class="popup-warpper">
+			<div class="popup-main">
+				<h3>查看对话</h3>
+				<div class="popup-body">
+					<div class="popup-list">
+						<div class="comment-item">
+							<img class="comment-item-author" src="../resource/blog/img/comment-avatar.jpg" alt="">
+							<div class="comment-item-body">
+								<div class="comment-item-head"><span class="comment-head-authorName">盐石</span></div>
+								<div class="comment-item-content">
+									小众论坛就继续小众，人多就变味了。
+								</div>
+								<div class="comment-item-foot">
+									<div class="comment-foot-time"><span class="meta-comment-time" data-hover-title="评论于 2017.06.12 08:44">8小时前</span></div><div class="comment-foot-btnList">
+										<div class="comment-bang-btn">
+											<span class="comment-bang-font">点赞</span><i class="comment-bang-icon fa fa-star-o"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="comment-item">
+							<img class="comment-item-author" src="../resource/blog/img/comment-avatar2.jpg" alt="">
+							<div class="comment-item-body">
+								<div class="comment-item-head"><span class="comment-head-authorName">牛羊与疯马<span class="comment-head-replyTo"><span class="comment-head-replySplit">回复</span>盐石</span></span></div>
+								<div class="comment-item-content">
+									白学惨案烈士之一，前来拜访！<br>
+									真理的卫士是杀不绝的！<br>
+									冬马党的屠刀永远不可能垄断真相！<br>
+								</div>
+								<div class="comment-item-foot">
+									<div class="comment-foot-time"><span class="meta-comment-time" data-hover-title="评论于 2017.06.12 09:56">7小时前</span></div><div class="comment-foot-btnList">
+										<div class="comment-bang-btn">
+											<span class="comment-bang-font">点赞</span><i class="comment-bang-icon fa fa-star"></i>
+										</div>
+									</div>
+									<div class="comment-bangs">183 赞</div>
+								</div>
+							</div>
+						</div>
+						<div class="comment-item">
+							<img class="comment-item-author" src="../resource/blog/img/comment-avatar.jpg" alt="">
+							<div class="comment-item-body">
+								<div class="comment-item-head"><span class="comment-head-authorName">盐石<span class="comment-head-replyTo"><span class="comment-head-replySplit">回复</span>牛羊与疯马</span></span></div>
+								<div class="comment-item-content">
+									从长期尺度来看，我们都是要消失的。在正确的时候消失，胜于苟延残喘晚节不保。
+								</div>
+								<div class="comment-item-foot">
+									<div class="comment-foot-time"><span class="meta-comment-time" data-hover-title="评论于 2017.06.12 09:56">7小时前</span></div><div class="comment-foot-btnList">
+										<div class="comment-bang-btn">
+											<span class="comment-bang-font">点赞</span><i class="comment-bang-icon fa fa-star"></i>
+										</div>
+									</div>
+									<div class="comment-bangs">2 赞</div>
+								</div>
+							</div>
+						</div>
+						<div class="comment-item">
+							<img class="comment-item-author" src="../resource/blog/img/comment-avatar2.jpg" alt="">
+							<div class="comment-item-body">
+								<div class="comment-item-head"><span class="comment-head-authorName">牛羊与疯马<span class="comment-head-replyTo"><span class="comment-head-replySplit">回复</span>盐石</span></span></div>
+								<div class="comment-item-content">
+									不可能的，所有小众论坛最后的下场无一例外都是消失。因为老成员慢慢就疲惫了，失去热情。
+								</div>
+								<div class="comment-item-foot">
+									<div class="comment-foot-time"><span class="meta-comment-time" data-hover-title="评论于 2017.06.12 09:56">7小时前</span></div><div class="comment-foot-btnList">
+										<div class="comment-bang-btn">
+											<span class="comment-bang-font">点赞</span><i class="comment-bang-icon fa fa-star-o"></i>
+										</div>
+									</div>
+									<div class="comment-bangs"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="popup-close"><i class="fa fa-close"></i></div>
+		</div>
+	</div>
+	<div id="lightcase-overlay" style="opacity: 0; display: none; cursor: pointer;"></div>
+</body>
+<script type="text/javascript">
+Waves.displayEffect();
+$(document).ready(function() {
+
+	// 
+	$('#editor-btnCancel').click(function(){
+		$('#comment-item-inlineReply').hide();
+	});
+	// 
+	$('#comment-reply-btn').click(function(){
+		$('#comment-item-inlineReply').show();
+	});
+
+	// 编辑区点击后显示 发送按钮
+	$('.editor-editorzone').click(function(){
+		$(this).parent().find('.article-editor-btnList').show();
+	});
+	// 评论发送按钮
+	$('.editor-btnSend').click(function(){
+		$(this).addClass('editor-btnSend--active');
+		setTimeout(function(){
+			$('.editor-btnSend').removeClass('editor-btnSend--active');
+		},700);
+	});
+	// 点击取消按钮后 隐藏发送按钮
+	$('.editor-btnCancel').click(function(){
+		$(this).parent().parent().hide();
+	});
+	// 查看对话 模态窗
+	$('.comment-head-replyList').click(function(){
+		$('body').css('overflow-y','hidden');
+		$('.popup').addClass('popup--show');
+	});
+	$('.popup-close').click(function(){
+		$('body').css('overflow-y','scroll');
+		$('.popup').removeClass('popup--show');
+	});
+	// 侧边栏开关
+	$('.sidebar-switch').click(function(){
+		if($('.sidebar-switch').hasClass('red')){
+			// switch 颜色改变
+			$('.sidebar-switch').removeClass('red');
+			$('.sidebar-switch').addClass('bule');
+			$('.sidebar-switch-btn').removeClass('sidebar-switch-btn-red');
+			$('.sidebar-switch-btn').addClass('sidebar-switch-btn-bule');
+
+			// 侧边栏消失
+			$('.content-sidebar').addClass('content-sidebar--hidden');
+			setTimeout(function(){
+				$('.content-sidebar').addClass('content-sidebar--dispaly');
+			},360);
+
+			// 文章居中显示
+			setTimeout(function(){
+				$('.content-main').addClass('content-main--middle');
+			},370);
+		}else{
+			// switch 颜色改变
+			$('.sidebar-switch').removeClass('bule');
+			$('.sidebar-switch').addClass('red');
+			$('.sidebar-switch-btn').removeClass('sidebar-switch-btn-bule');
+			$('.sidebar-switch-btn').addClass('sidebar-switch-btn-red');
+
+			// 移除文章居中显示
+			$('.content-main').removeClass('content-main--middle');
+
+
+			// 侧边栏恢复
+			setTimeout(function(){
+				$('.content-sidebar').removeClass('content-sidebar--dispaly');
+			},360);
+			setTimeout(function(){
+				$('.content-sidebar').removeClass('content-sidebar--hidden');
+			},380);
+		}
+	})
+/*	
+	loading效果-在页面上加上一层load层,fixed,z-index99999999,width100%,等页面加载好后$(window).load();淡出load层
+	
+*/
+	// 导航栏缩短
+	$(document).scroll(function(){
+		// 现在导航栏高度固定
+		// if($(document).scrollTop() > 1){
+		// 	$('.nav').addClass('nav--active');
+		// 	$('.sidebar-switch-main').addClass('sidebar-switch-main--active');
+		// 	$('.nav-fake').addClass('nav-fake--active');
+		// }
+		// if($(document).scrollTop() == 0){
+		// 	$('.nav').removeClass('nav--active');
+		// 	$('.sidebar-switch-main').removeClass('sidebar-switch-main--active');
+		// 	$('.nav-fake').removeClass('nav-fake--active');
+		// }
+		// 
+		if($(document).scrollTop() > 200){
+			$('.sh-toTop').addClass('sh-toTop--fadein');
+		}else{
+			$('.sh-toTop').removeClass('sh-toTop--fadein');
+		}
+	});
+
+	// top置顶
+	$('#top').click(function(){
+		$('html,body').animate({scrollTop: '0px'}, 800);
+	});
+
+	// 显示详细信息时保持滚动条位置 content-container:margin-bottom增加时没10ms将滚动条置底一次.
+	$('.sh-readmore').click(function(){
+		$('.content-container').addClass('footer-detail--true');
+		var sBottom = setInterval(function(){
+			$(document).scrollTop($(document).height());
+		},10);
+		setTimeout(function(){
+			clearInterval(sBottom); 
+		},1000);
+	});
+	$('.sh-close').click(function(){
+		$('.content-container').removeClass('footer-detail--true');
+	});
+
+	// chats
+	$('.chats-head').click(function(){
+		if($('.chats-container-inner').hasClass('container-inner--open')){//关闭 chats
+			$('.chats-container-inner').removeClass('container-inner--open').addClass('container-inner--hover');
+			$('.head-text').removeClass('head-text--open');
+			$('.container-main-wrapper').removeClass('main-wrapper--open');
+			$('.head-icon').removeClass('head-icon--open').addClass('head-icon--close').removeClass('fa-envelope-open-o').addClass('fa-envelope-o');
+		}else{//开启 chats
+			$('.chats-container-inner').removeClass('container-inner--hover').addClass('container-inner--open');
+			$('.head-text').addClass('head-text--open');
+			$('.container-main-wrapper').addClass('main-wrapper--open');
+			$('.head-icon').addClass('head-icon--open').removeClass('head-icon--close').removeClass('fa-envelope-o').addClass('fa-envelope-open-o');
+		}
+	});
+
+	$('.overlay-right').lightcase({
+		transition: 'elastic',
+		showTitle: true,
+		caption:"hahaha",
+		width:100,
+		hight:100,
+		disableShrink:true
+	});
+});
+
+</script>
+</html>

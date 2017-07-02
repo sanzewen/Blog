@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<title>waves.js简单实现</title>
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<style>
+	.a{
+		position: relative;
+		height: 43px;
+		width: 97px;
+		background-color: #47c9e5;
+		cursor: pointer;
+		overflow: hidden;
+		border-radius: 5px;
+	}
+	.waves{
+
+		display: block;
+		position: absolute;
+
+		background: rgba(255,255,255,.4);
+    	background: -webkit-radial-gradient(rgba(255,255,255,.2) 0,rgba(255,255,255,.3) 40%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.5) 60%,rgba(255,255,255,0) 70%);
+    	background: -o-radial-gradient(rgba(255,255,255,.2) 0,rgba(255,255,255,.3) 40%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.5) 60%,rgba(255,255,255,0) 70%);
+    	background: -moz-radial-gradient(rgba(255,255,255,.2) 0,rgba(255,255,255,.3) 40%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.5) 60%,rgba(255,255,255,0) 70%);
+    	background: radial-gradient(rgba(255,255,255,.2) 0,rgba(255,255,255,.3) 40%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.5) 60%,rgba(255,255,255,0) 70%)
+
+		border-radius: 100%;
+		-webkit-transform: scale(0);
+		-moz-transform: scale(0);
+		-ms-transform: scale(0);
+		-o-transform: scale(0);
+	}
+
+	.waves-ink{
+		-webkit-animation: ripple .5s linear;
+		-moz-animation: ripple .5s linear;
+		-ms-animation: ripple .5s linear;
+		-o-animation: ripple .5s linear;
+		animation: ripple .5s linear
+	}
+
+	@-webkit-keyframes ripple {
+		100%{
+			opacity: 0;
+			transform: scale(3.5);
+		}
+	}
+	@-o-keyframes ripple {
+		100%{
+			opacity: 0;
+			transform: scale(3.5);
+		}
+	}
+	@-moz-keyframes ripple {
+		100%{
+			opacity: 0;
+			transform: scale(3.5);
+		}
+	}
+	@keyframes ripple {
+		100%{
+			opacity: 0;
+			transform: scale(2.5);
+		}
+	}
+
+</style>
+</head>
+<body>
+	<div class="a"></div>
+</body>
+<script type="text/javascript">
+$(function(){
+	$('.a').mousedown(function(e){
+		var boxX=$(this).offset().left;
+		var boxY=$(this).offset().top;
+		var x = e.pageX;
+  		var y = e.pageY;
+  		var zX=x-boxX;
+		var zY=y-boxY;
+
+		$(this).children('span.waves.waves-ink').removeClass('waves-ink');
+		if($(this).children('span').length <= 0){
+			$(this).prepend('<span class="waves"></span>');
+		}
+
+		var waves = $(this).children('span');
+
+		var block = parseInt($(this).css('width')) > parseInt($(this).css('height')) ? parseInt($(this).css('width')) : parseInt($(this).css('height'));
+		
+		waves.css('width',block).css('height',block);
+		waves.removeClass('waves-ink');
+		waves.css('top',parseInt(zY)-block/2).css('left',parseInt(zX)-block/2).addClass('waves-ink');
+	});
+});
+</script>
+</html>

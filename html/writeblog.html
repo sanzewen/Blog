@@ -1,0 +1,288 @@
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="systemctx" value="${pageContext.request.contextPath}"/> -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link href="../resource/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	<script type="text/javascript" src="../resource/blog/js/jquery-3.2.1.js"></script>
+	<script type="text/javascript" src="../resource/blog/js/tojson.js"></script>
+	<script type="text/javascript" src="../resource/bootstrap/js/bootstrap.min.js"></script>
+	<!-- font.css -->
+	<link href="../resource/font-awesome/css/font-awesome.css" rel="stylesheet">
+	<link href="../resource/my-fonticon/myfonticon.css" rel="stylesheet">
+	<!-- 页面样式 -->
+	<link href="../resource/blog/css/writeblog.css" type="text/css" rel="stylesheet">
+	<title>写博客</title>
+</head>
+<body>
+
+	<header class="nav-tb">
+		<div class="toolbar-warpper">
+			<div class="toolbar-body">
+		    <div id="toolbar" class="toolbar">
+		    </div>
+		    </div>
+	    </div>
+	    <div class="nav-right">
+	    	
+	    </div>
+	</header>
+	<header class="nav-fake">
+		
+	</header>
+	
+	<!-- 左侧功能栏 -->
+	<div class="leftSidebar-main">
+		<div class="leftSidebar-warpper">
+			<div class="ps-body">
+	    		<ul class="ps-list">
+	    			<li class="ps-list-btn"><a class="ps-btn-a save" href="#"><i class="fim icon-m_save"></i>保存</a></li>
+	    			<li class="ps-list-btn"><a class="ps-btn-a preview" href="#"><i class="fim icon-m_preview"></i>预览</a></li>
+	    			<li class="ps-list-btn"><a class="ps-btn-a publish" href="#"><i class="fim icon-m_publish"></i>发布</a></li>
+	    			<li class="ps-list-btn"><a class="ps-btn-a setting" href="#"><i class="fim icon-m_set"></i>设置</a></li>
+	    			<li class="ps-list-btn"><a class="ps-btn-a history" href="#"><i class="fim icon-m_history_2"></i>历史版本</a></li>
+	    		</ul>
+	    	</div>
+		</div>
+	</div>
+	<div class="leftSidebar-back"></div>
+	<div class="leftSidebar-btn">
+		<span class="btn-line btn-line1"></span>
+		<span class="btn-line btn-line2"></span>
+		<span class="btn-line btn-line3"></span>
+	</div>
+
+    <div style="padding-bottom: 60px; color: #ccc"></div>
+    <div class="editor-warpper">
+    	<input id="title-img-upload" type="file" class="title-upload-input">
+    	<div id="blog-title-img" class="title-img">
+    		<i class="title-img-icon fa fa-camera"></i>
+    		<span class="title-img-span noselect">博客配图</span>
+    	</div>
+    	<input type="input" class="title-input" value="Legion：基于Haskell开发的极简区块链服务器">
+    	<div id="editor" class="editor">
+        	<p>这个一个源于<a href="https://github.com/lhartikk/naivechain" target="_blank">naivechain</a>的极简区块链服务器项目，开发语言为Haskell。通过启动多个Legion节点来创建一个点对点网络，从而使得网络上的区块链得到同步。</p>
+			<p>前提条件：要编译源代码，你需要使用<a href="https://docs.haskellstack.org/en/stable/README/">stack</a>。</p>
+			<p>或者，你也可以获取预编译的<a href="https://github.com/aviaviavi/legion/releases">预发布二进制文件</a>。 注意：如果你是从github下载二进制文件，则需要通过运行以下命令来把它标记为可执行文件：</p><pre><code>$ chmod +x legion-exe</code></pre>
+			<h3>用法:</h3><pre><code>$ stack exec legion-exe [http port] [p2p port] [optional: `seedhost:seedP2PPort`]</code></pre>
+			<h3>例子:</h3><pre><code>$ stack exec legion-exe 8001 9001</code></pre>
+			<p>默认情况下，legion会把输出到标准输出的内容记录下来。在另一个终端窗口中执行：</p><pre><code>$ stack exec legion-exe 8002 9002 localhost:9001</code></pre>
+			<p>或者，你可以从github获取二进制文件并直接运行，而不是通过<code>stack exec</code>来运行。</p>
+			<p>第三个参数告诉节点从哪里可以找到一个种子节点来引导到点对点网络的连接。你可以从任何一台服务器上获取到区块链的当前状态，它将自动保持更新，并将自己的更新状态发送给其他节点。</p>
+			<p>现在，两个节点已经同步了，你可以从<a href="http://localhost:$httpPort/chain">http://localhost:$httpPort/chain</a>这样的地址查看当前的区块链，例如：<a href="http://localhost:8001/chain">http://localhost:8001/chain</a></p>
+			<p>通过发送POST请求到/block来向区块链添加一个新的区块：</p>
+			<p></p><pre><code>$ curl -H "Content-Type: application/json" -X POST -d '{"blockBody": "this is the data for the next block"}' http://localhost:8001/block</code></pre>
+			<p><br></p>
+    	</div>
+    </div>
+    <!--右下角功能集合：保存，预览，发布博客，设置，查看历史版本-->
+    <div class="pullset noselect">
+    	<div class="ps-warpper">
+	    	<div class="ps-head">
+	    		<span class="ps-head-mes">保存成功</span><i id="ps-head-icon" class="ps-head-icon fa fa-check"></i>
+	    	</div>
+	    	<div class="ps-body">
+	    		<ul class="ps-list">
+	    			<li class="ps-list-btn"><a class="ps-btn-a save" href="#">保存</a></li>
+	    			<li class="ps-list-btn"><a class="ps-btn-a preview" href="#">预览</a></li>
+	    			<li class="ps-list-btn"><a class="ps-btn-a publish" href="#">发布</a></li>
+	    			<li class="ps-list-btn"><a class="ps-btn-a setting" href="#">设置</a></li>
+	    			<li class="ps-list-btn"><a class="ps-btn-a history" href="#">历史版本</a></li>
+	    		</ul>
+	    	</div>
+    	</div>
+    </div>
+
+	<br>
+	<br>
+	
+	<script type="text/javascript" src="../resource/wangEditor/js/wangEditor.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor;
+        var editor = new E('#toolbar', '#editor');
+        editor.customConfig.uploadImgShowBase64 = true;
+        editor.customConfig.menus = [
+        	'head',
+            'bold',
+            'italic',
+			
+			'underline',
+			'strikeThrough',
+			'link',
+			'list',
+			'justify',
+			'foreColor',
+			'backColor',
+			'quote',
+			'code',
+			'table',
+			'image',
+			'undo',
+			'redo'
+        ];
+        editor.create();
+    </script>
+</body>
+<script type="text/javascript">
+$(function(){
+	// 左侧侧边栏按钮
+	$('.leftSidebar-btn').click(function(){
+		if($(this).hasClass('leftSidebar-btn--open')){
+			$(this).removeClass('leftSidebar-btn--open');
+			$('.leftSidebar-main').removeClass('leftSidebar-main--open');
+			$('.leftSidebar-back').removeClass('leftSidebar-back--open');
+			$('.btn-line1').removeClass('btn-line1--open');
+			$('.btn-line2').removeClass('btn-line2--open');
+			$('.btn-line3').removeClass('btn-line3--open');
+		}else{
+			$(this).addClass('leftSidebar-btn--open');
+			$('.leftSidebar-main').addClass('leftSidebar-main--open');
+			$('.leftSidebar-back').addClass('leftSidebar-back--open');
+			$('.btn-line1').addClass('btn-line1--open');
+			$('.btn-line2').addClass('btn-line2--open');
+			$('.btn-line3').addClass('btn-line3--open');
+		}
+		
+	});
+
+	// 右下角功能集合按钮 -- 已废弃,太Low
+	// $(".ps-head").click(function(){
+	// 	if(!$('.ps-warpper').hasClass('ps-warpper-open')){
+	// 		$('.ps-warpper').addClass('ps-warpper-open');
+	// 		$(".ps-body").addClass('ps-body-open');
+	// 	}else{
+	// 		$('.ps-warpper').removeClass('ps-warpper-open');
+	// 		$(".ps-body").removeClass('ps-body-open');
+	// 	}
+	// });
+
+	// 隐藏编辑器左下角div
+	$('.w-e-bar').hide();
+
+	// 博客配图
+	$('#blog-title-img').click(function(){
+		$('#title-img-upload').click();
+		// alert("a");
+		// $('#f2').click();
+	});
+
+
+
+	//编辑器有新内容输入时保存
+	// 规则一：新内容输入后两秒之内，无输入新内容则保存（如果用户一直输入则不会保存，用变量记录开关以及起始时间）。
+	// 规则二：上次保存时间到现在如果有一分钟之差，则强制保存一次（要记录上次保存时间）。
+	// 规则三：保存中状态，不能再次进行保存操作。计时在保存成功后清空。
+	// 此外，保存状态不同还要改变文字和样式。
+
+	var	editorLength = $('#editor').html().length;
+
+	var editorKdFlag = false;//是否在进行保存操作
+	var editorAjaxFlag = false;//是否正在发送ajax请求
+	var editorKdDate = new Date().getTime();//上次输入内容的时间
+	
+
+	$('#editor').keyup(function(event){
+		// var key =  event.which;
+		// console.log('key：' + key);
+
+		// console.log('el:' + editorLength);
+		// console.log('el:' + $('#editor').html().length);
+
+		if(editorLength != $('#editor').html().length){//输入内容发送了改变
+			editorLength = $('#editor').html().length;
+
+			editorKdDate = new Date().getTime();//获得新内容输入时间
+			// console.log('输入时间：' + editorKdDate);
+			if(editorKdFlag || editorAjaxFlag) return;//已经进行时间差检测或正在发送ajax请求时，无法再次进行保存操作
+			else{
+				editorKdFlag = true;
+				//调用方法，每0.5s执行一次。
+				checkKdDate();
+			}
+		}
+	});
+
+	var iTime = 1000;//2s间隔时间。
+	//检测时间差，发送ajax保存博客。
+	function checkKdDate(){
+		var checkKdIT = setInterval(function(){
+			var tempdate = new Date().getTime();
+			// console.log('当前时间：' + parseInt(tempdate));
+			// console.log('时间差：' + (parseInt(tempdate)-parseInt(editorKdDate)));
+			if(tempdate - editorKdDate > iTime){//上次输入新内容时间到现在的时间差>iTime则，发送ajax请求并且取消检测函数
+				//1.取消检测函数
+				clearInterval(checkKdIT);
+				//2.发送ajax,保存博客
+				ajaxSaveBlog();
+				//3.重置状态
+				editorKdFlag = false;
+			}
+		},500);
+	}
+
+	var CODE_SAVED = 1;
+	var CODE_SUCCESS = 2;
+	var CODE_DEFEAT = 3;
+	var CODE_OTHER = 4;
+
+	//发送ajax，发送中博客不能再次保存
+	function ajaxSaveBlog(){
+		// ajax发送前 将样式改为正在发送的状态
+		editorAjaxFlag = true;
+		setSaveStyle(CODE_SAVED);//保存中
+
+		// ajax发送中
+		var statusCode = CODE_SUCCESS;//保存成功
+
+		// ajax发送后 根据ajax返回状态码 修改样式
+		editorAjaxFlag = false;
+
+		// 测试使用，每次保存时有20%几率保存失败
+		if(Math.random() > 0.2){
+			setTimeout("$('.ps-head-mes').text('保存成功');$('.ps-head-icon').removeClass('fa-pulse');$('.ps-head-icon').removeClass('fa-spinner');$('.ps-head-icon').removeClass('fa-close');$('.ps-head-icon').addClass('fa-check');",2000);
+		}else{
+			setTimeout("$('.ps-head-mes').text('保存失败');$('.ps-head-icon').removeClass('fa-pulse');$('.ps-head-icon').removeClass('fa-spinner');$('.ps-head-icon').removeClass('fa-check');$('.ps-head-icon').addClass('fa-close');",2000);
+		}
+	}
+
+	//状态码：1.保存中，2.保存成功，3.保存失败，4.未知
+	function setSaveStyle(statusCode){
+		console.log(statusCode);
+		if(statusCode == CODE_SAVED){
+			$('.ps-head-mes').text('保存中');
+			$('.ps-head-icon').removeClass('fa-check');
+			$('.ps-head-icon').removeClass('fa-close');
+			$('.ps-head-icon').addClass('fa-pulse');
+			$('.ps-head-icon').addClass('fa-spinner');
+			
+			
+		}else if(statusCode == CODE_SUCCESS){
+			$('.ps-head-mes').text('保存成功');
+			$('.ps-head-icon').removeClass('fa-pulse');
+			$('.ps-head-icon').removeClass('fa-spinner');
+			$('.ps-head-icon').removeClass('fa-close');
+			$('.ps-head-icon').addClass('fa-check');
+
+		}else if(statusCode == CODE_DEFEAT){
+			$('.ps-head-mes').text('保存失败');
+			$('.ps-head-icon').removeClass('fa-pulse');
+			$('.ps-head-icon').removeClass('fa-spinner');
+			$('.ps-head-icon').removeClass('fa-check');
+			$('.ps-head-icon').addClass('fa-close');
+
+		}else if(statusCode == CODE_OTHER){
+
+		}
+	}
+
+});
+
+</script>
+</html>
