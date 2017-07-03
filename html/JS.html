@@ -61,7 +61,7 @@ if(""){}//fasle
 if(false == ""){}//true
 if(false === ""){}//fasle
 if("1" = 1){}//true
-if("1" === 1){}//fasle GitHub测试修改 / GitHub本地测试修改发送至云端.
+if("1" === 1){}//fasle
 
 
 // 函数
@@ -240,7 +240,7 @@ jquery1.5代码最后一段:window.jQuery = window.$ = jQuery;
 
 
 ----ECMAScript的数据类型
-	五种基本数据类型:Undefined,Null,boolean,number,string.
+	五种基本数据类型:Undefined,Null,boolean,number,string(字面量赋值).
 	引用数据类型:Object,Array,Boolean,Date,Math,Number,String,RegExp,Function,Event
 
 ----typeof返回值
@@ -613,6 +613,8 @@ function factorial(num){
 }
 
 this.this引用的是函数执行的环境对象——或者也可以说是 this 值（当在网页的全局作用域中调用函数时，this 对象引用的就是 window）
+--或者说,this是函数所从属的对象(变量).
+
 window.color = "red";
 var o = { color: "blue" };
 function sayColor(){
@@ -638,7 +640,7 @@ person.say = say;
 person.say(); -- san.当前函数的执行环境是局部环境,this代表的对象是person.
 
 --上面使用this的方式,让方法在不同的环境下有不同的输出.也就是说随着方法this的对象的改变,方法会获得不同输出.从而实现方法与对象的解耦
---上面的方法中 person.say = say; 意味着将sqy函数的this指向person对象.
+--上面的方法中 person.say = say; 意味着将say函数的this指向person对象.
 
 而apply,call方法则封装了这一步.
 say.call(this); --gobal.
@@ -746,37 +748,347 @@ var b = new Person('san',23,'Software Engineer');
 if(a.sayName == b.sayName) =>true,引用的方法都是同一个.
 
 
-----JS原型对象(property)
+----JS原型对象(property) 重点!!!
+----JS原型对象(property) 重点!!!
+
+1.每个函数都有prototype属性,该属性指向prototype对象.
+	可以通过:函数名.prototype.属性名 = xxx;的方式来给该函数的prototype对象添加属性.
+
+2.构造函数创建的对象也存在prototype属性(内部属性),该属性指向的正是构造函数prototype属性. 
+	所以prototype对象是构造函数以及该构造函数创建的所有对象共享的.  --就像java类中的成员变量和成员方法.
+
+3.prototype对象存在constructor属性,该属性指向该prototype所在的函数.
+	也就是说 Person == Person.prototype.constructor;
+
+4.prototype对象只能由,函数名.prototype来添加/修改/删除属性.
+	delete Person.prototype.name; (虽然对象也能获得prototype对象,但是只拥有读权限.)
+
+5.实例对象内部属性与对象的prototype对象的属性名重复的话,会覆盖掉prototype对象内部属性.
+	san.name,san.prototype.name.
+
+6.实例对象的prototype属性指向prototype对象,而不是构造函数.
+
+7.原生引用对象的prototype属性.所有原生引用类型（Object、 Array、 String，等等）都在其构造函数的原型上定义了方法。
+	Array.prototype.sort;String.prototype.substring;
+	可以给原生对象添加新的方法(但不推荐这样做):String.prototype.startsWith = function(text){return this.indexOf(text) == 0;};
+
+
+
+function Person(){
+	if(arguments.length != 0)
+			this.name = arguments[0];
+}
+
+Person.prototype.name = 'san';
+Person.prototype.age = 23;
+Person.prototype.job = 'Software Engineer';
+Person.prototype.sayName = function(){alert(this.name);};
+<==>
+Person.prototype = {
+	constructor: Person, //以字面量形式创建prototype对象,会导致constructor属性指向Object对象而不是自己的函数对象.不过此时的constructor属性已经变成可枚举类型.
+	name: 'san',
+	age: 23,
+	job: 'Software Engineer',
+	sayName: function(){
+		alert(this.name);
+	}
+};
+
+//注意:该方法 IE9以下浏览器以及老版浏览器不支持.
+Object.defineProperty(Person.prototype,'constructor'{ //将constructor属性的可枚举类型设置为false
+	enumerable:false,
+	value:Person
+});
+
+
+var san = new Person();
+var li = new Person('Li');
+
+----in 操作符.判断对象是否拥有该属性(不管该属性是否在prototype对象中).
+if('name' in san) => true; --来自原型
+if('name' in li) => true;  --来自对象
+
+----hasOwnProperty函数,判断对象是否拥有该属性(只会校验对象内部属性,跟prototype对象无关)
+if(san.hasOwnProperty('name')) =>false;
+if(li.hasOwnProperty('name')) =>true;
+
+----keys函数,以数组的形式返回对象所有属性名.(部分浏览器支持)
+Object.keys(Person.prototype); --name,age,job,sayName
+Object.keys(san);  --实例对象没有定义属性
+Object.keys(li);  --name
+Object.keys(san.prototype); --实例对象不能这样访问原型对象.
+
+----getOwnPropertyNames函数与keys作用一致,返回对象全部属性(包括不可枚举类型的),(部分浏览器支持)
+Object.getOwnPropertyNames(Person.prototype); ----constructor,name,age,job,sayName
+
+
+----原型的动态性,原型对象的任何修改会立刻在实例对象中反应出来.
+Person.prototype.age = 33;
+alert(san.age); --33
+Person.prototype.sayHi = function(){alert('Hi');};
+san.sayHi(); --Hi
+
+
+----重写prototype对象.
+Person.prototype = {
+	age = 99;
+};
+alert(san.age); --33
+
+var test = new Person();
+alert(test.age); --99
+alert(test.name); --undefined
+
+-构造函数重写了prototype对象,实际上等于重新开辟了一块堆内存,引用发生了改变.而实例对象中的引用还指向原来的prototype对象.
+
+
+----prototype对象的缺点.
+-当prototype对象中的值为引用类型时,例如Array;
+Person.prototype.friends:['tom','susan'];
+
+-该引用类型中的某个字段被实例对象,修改后会立刻反应到全部实例对象上.类似java里多线程造成的成员变量数据污染.
+alert(san.friends);
+san.friends[2] = 'bob';
+alert(li.friends);
+
+-当然这正是你所期望的结果那么便不算缺点.
+-从这里可以看出,prototype对象中适合定义常量或是全局参数,函数等.
+-将对象的内部(自有)变量放在构造函数中定义,将常量/全局参数/函数等放入prototype中定义.混合模式.
+
+
+----动态原型模式,将原型初始化放在构造函数中.
+function Person(){
+	if(arguments.length != 0)
+		this.name = arguments[0];
+	if(this.name == undefined) //可以根据不同参数来选择不同的prototype初始化.达到一种同一个类的分化效果.
+		Person.prototype.name = 'haha';
+}
+
+-这种方式的缺点,prototype不能使用字面量方式初始化.因为prototype对象在每个对象被构造出来后才会赋值,如果用字面量初始化会重置prototype对象的引用指针.
+
+
+----寄生构造模式与稳妥构造模式.(说是构造函数其实跟构造函数没关系.跟prototype更没关系,只是用来通过函数创建对象的手段,与工厂模式类似)
+*寄生构造模式
+function Person(name, age, job){
+	return {
+		name:name,
+		age:age,
+		job:job,
+		sayName:function(){alert(this.name);}
+	};
+}
+var friend = new Person("Nicholas", 29, "Software Engineer"); //与工厂模式的区别是前面加了new 修饰符.实际上根本没有Person这个引用类型(instanceof Person),Person只是函数名.
+
+-这个模式可以在特殊的情况下用来为对象创建构造函数。假设我们想创建一个具有额外方法的特殊数组。由于不能直接修改 Array 构造函数，因此可以使用这个模式。
+function SpecialArray(){
+	//创建数组
+	var values = new Array();
+	//添加值
+	values.push.apply(values, arguments);
+	//添加方法
+	values.toPipedString = function(){
+		return this.join("|");
+	};
+	//返回数组
+	return values;
+}
+var colors = new SpecialArray("red", "blue", "green");
+alert(colors.toPipedString()); //"red|blue|green
+
+*稳妥构造模式-跟上个模式区别:1.构造方式中不使用this关键字,2.创建实例时不使用new关键字.
+function Person(name, age, job){
+	return {
+		name:name,
+		age:age,
+		job:job,
+		sayName:function(){alert(name);}//不使用this关键字,name值在实例对象构造时被确定了下来,之后都不会修改.
+	};
+}
+var friend = Person("Nicholas", 29, "Software Engineer"); 
+friend.sayName(); //Nicholas
+friend.name = 'friend';
+friend.sayName(); //Nicholas -不会因为变量的修改而改变.
+
+var test = {name:'test'};
+test.sayName = friend.sayName;
+test.sayName(); //Nicholas
+
+
+----继承 重点!!!
+----继承 重点!!!
+-OO语言中继承分为接口继承(implements)与实现继承(extends).implements继承方法签名,extends继承实际的方法.因为js并不存在方法签名所以只能extends(依靠原型链).
+*原型链
+function A(){
+	this.name = 'a';
+}
+A.prototype.getName = function(){
+	return this.name;	
+};
+A.prototype.sayHi = function(){
+	alert('Hi');
+}
+function B(){
+	this.age = 23;
+}
+B.prototype = new A();//继承
+B.prototype.getName = function(){//重写父类方法
+	return 'b';
+}
+
+var test = new B();
+alert(test.getName());//b -重写的方法
+alert(test.name);//a -从原型链上继承的属性
+test.sayHi();//Hi -从原型链上继承的属性(方法)
+
+alert(test.prototype instanceof A); //true
+alert(test.prototype instanceof B); //true
+alert(test.prototype instanceof Object); //true
+
+alert(B.prototype instanceof A); //true
+alert(B.prototype instanceof B); //false 
+alert(B.prototype instanceof Object); //true
+
+
+-在寻找属性时,1.寻找当前实例内部属性,2.寻找prototype(父类实例)内部属性,3.寻找父类实例prototype属性.
+-原型链的最末端是Object prototype.所有引用类型的顶级父类都是Object(所有函数的默认原型都是Object实例).
+
+*原型链实现原型的弊端!!!
+*原型链实现原型的弊端!!!
+*原型链实现原型的弊端!!!
+function A(){
+	this.colors = ["red", "blue", "green"];
+}
+function B(){}
+B.prototype = new A();//继承.多个B类型的实例对象,会继承自同一个A类型的实例对象,这样A实例对象内部的引用属性会被所有B类型实例共享.
+
+var s1 = new B();
+alert(s1.colors);//red,blue,green
+s1.colors.push('black');
+var s2 = new B();
+alert(s2.colors);//red,blue,green,black
+
+
+----借用构造函数,可以避免原型链的问题.借用构造函数与原型链一起使用的方式叫做组合继承.
+function A(name){
+	this.colors = ["red", "blue", "green"];
+	this.name = name;
+}
+A.prototype.sayNmae = function(){alert(this.name);};
+function B(name){
+	A.call(this,name); //借用A的构造函数.将A构造函数内的属性赋予自身.
+}
+
+B.prototype = new A();
+B.prototype.constructor = B; //将prototype指向子类构造函数.
+var b = new B('b');
+
+
+----原型式继承,原型链实现的extends的简单变形封装罢了.不必预先定义构造函数的情况下实现继承
+function object(o){  //将子类的定义,原型赋值,创造子类对象放在一个函数中.
+	function F(){}; //定义子类
+	F.prototype = o; //原型赋值
+	return new F(); //创造子类对象
+}
+var person = {
+	name: "Nicholas",
+	friends: ["Shelby", "Court", "Van"]
+};
+var anotherPerson = object(person);
+anotherPerson.name = "Greg";
+anotherPerson.friends.push("Rob");
+
+var yetAnotherPerson = object(person);
+yetAnotherPerson.name = "Linda";
+yetAnotherPerson.friends.push("Barbie");
+
+alert(person.friends); //"Shelby,Court,Van,Rob,Barbie"
+
+
+----寄生继承.基于原型继承.使用寄生式继承来为对象添加函数，会由于不能做到函数复用而降低效率；这一点与构造函数模式类似。
+function object(o){  //将子类的定义,原型赋值,创造子类对象放在一个函数中.
+	function F(){}; //定义子类
+	F.prototype = o; //原型赋值
+	return new F(); //创造子类对象
+}
+
+function createAnother(o){
+	var clone = object(o); //通过调用函数创建一个新对象(原对象的子类对象)
+	clone.sayHi = function(){ //以某种方式来增强子类对象,行为增强.
+		alert("hi");
+	};
+	return clone; //返回子类对象
+}
+
+
+----寄生组合继承.弥补了组合继承的不足,也弥补了寄生继承的弊端(组合继承会调用两次父类构造函数,降低性能.寄生继承子类),日哦,这么多继承方式
+function object(o){  //将子类的定义,原型赋值,创造子类对象放在一个函数中.
+	function F(){}; //定义子类
+	F.prototype = o; //原型赋值
+	return new F(); //创造子类对象
+}
+
+function inheritPrototype(Sub, Super){ //构造函数.
+	var prototype = object(Super.prototype); //创建对象
+	prototype.constructor = Sub; //增强对象
+	Sub.prototype = prototype; //指定对象
+}
+
+function A(){}
+A.prototype.sayName = function(){alert('123');};
+function B(){
+	A.call(this);
+}
+inheritPrototype(B,A);
+var b = new B();
+b.sayName();
+
+--组合继承中子类的prototype关联的是父类的实例,实例中自然包含了父类的全部属性(成员属性-prototype,内部属性-构造函数中定义的).
+B.prototype = new A();
+--而组合继承中的借用构造函数中call(又回调了父类的构造函数).
+A.call(this);--每个子类实例又获得一般父类的全部属性(成员属性-prototype,内部属性-构造函数中定义的).
+
+--寄生组合继承中,将父类prototype属性赋值给空对象的prototype属性,给prototype指定constructor属性,然后赋予子类的prototype属性
+说白了,之前(组合继承)是将父类实例赋予子类prototype属性(所以会调用两次父类构造函数).
+现在(寄生组合继承)是直接将父类的prototype包装进空白类,然后赋予给子类.这样省掉了调用父类构造函数的代码.
+
+
+
+----函数表达式
+----函数表达式
+*函数表达式?递归?闭包?
+
+函数的两种声明方式,函数声明提升,匿名函数(拉姆达函数)
+
+194
+
 
 
 
 
 <script type="text/javascript" charset="utf-8">
+function object(o){  //将子类的定义,原型赋值,创造子类对象放在一个函数中.
+	function F(){}; //定义子类
+	F.prototype = o; //原型赋值
+	return new F(); //创造子类对象
+}
 
-	function ins(){
-		function Person(name, age, job){
-			this.name = name;
-			this.age = age;
-			this.job = job;
-			this.sayName = function(){alert(this.name);};
-		}
+function inheritPrototype(Sub, Super){ //构造函数.
+	var prototype = object(Super.prototype); //创建对象
+	prototype.constructor = Sub; //增强对象
+	Sub.prototype = prototype; //指定对象
+}
 
-		// function sayName(){
-			
-		// }
+function A(){}
+A.prototype.sayName = function(){alert('123');};
+function B(){
+	A.call(this);
+}
+inheritPrototype(B,A);
 
-		var a = new Person('san',23,'Software Engineer');
-		var b = new Person('san',23,'Software Engineer');
-		alert(a instanceof Person);
-		
-	}
-	
-	var hi = ins;
+var b = new B();
+b.sayName();
 
-	window.hi();
-	// ins();
 
-	// alert(person.job);
 </script>
 
 </body>
