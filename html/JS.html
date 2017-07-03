@@ -1057,9 +1057,51 @@ A.call(this);--每个子类实例又获得一般父类的全部属性(成员属�
 ----函数表达式
 *函数表达式?递归?闭包?
 
+-函数的两种声明方式
+1.表达式声明
+function sayHi(){
+	alert('Hi!');
+}
+2.匿名函数式声明(拉姆达函数)
+var sayHi = function(){
+	alert('Hi!');
+}
+
+js解析器会在执行代码前,先读取一遍js代码,将表达式声明的函数通过'函数声明提升'的方式将此函数代码放到js代码块最开始部位.而匿名函数则不会.
+所以:这种写法是错误的.
+if(condition){
+	function sayHi(){
+		alert("Hi!");
+	}
+} else {
+	function sayHi(){
+		alert("Yo!");
+	}
+} 
+
+//可以这样做
+var sayHi;
+if(condition){
+	sayHi = function(){
+		alert("Hi!");
+	};
+} else {
+	sayHi = function(){
+		alert("Yo!");
+	};
+} 
+
+
+
+
+
+
+
+
+
+
 函数的两种声明方式,函数声明提升,匿名函数(拉姆达函数)
 
-194
 
 
 
