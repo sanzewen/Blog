@@ -1092,43 +1092,242 @@ if(condition){
 } 
 
 
+-递归,由于js语法的特性,函数也是对象.
+function factorial(num){
+	if (num <= 1){
+		return 1;
+	} else {
+		return num * factorial(num-1);
+	}
+}
+var anotherFactorial = factorial;
+factorial = null;
+alert(anotherFactorial(4)); //出错！
+
+-通过之前写的,使用arguments.callee可以保存每次调用自身.
+-但arguments.callee在严格模式下会报错.这里建议使用匿名函数写法.
+
+var factorial = (function f(num){ //外部无法访问f函数.
+	if (num <= 1){
+		return 1;
+	} else {
+		return num * f(num-1);
+	}
+});
+
+
+
+与其告诉你这个技术是做什么的,倒不如告诉你为什么需要这个技术.
+----闭包,重点!!!
+----闭包,重点!!!
+----闭包,重点!!!
+闭包是指有权访问另一个函数作用域中的变量的函数。创建闭包的常见方式，就是在一个函数内部创建另一个函数.
+闭包的五种写法.
+
+//第1种写法  
+function Circle(r) {  
+      this.r = r;  
+}  
+Circle.PI = 3.14159;  
+Circle.prototype.area = function() {  
+  return Circle.PI * this.r * this.r;  
+}  
+var c = new Circle(1.0);     
+alert(c.area());  
+
+
+
+
+----new修饰符的作用!!!
+----new修饰符的作用!!!
+----new修饰符的作用!!!
+
+
+--以上代码创建了名为Circle的类,并为该类设置了名为PI的变量(此变量不是实例共享的).还为该类设置了静态属性(area函数,各个实例共享).
+--circle的原型(prototype)对象,由circle的prototype变量名引用.而原型对象中引用了Circle函数的r与PI属性.
+--根据js回收机制:如果一个对象未被引用,则销毁该对象(并销毁该对象内部的全部对象).如果两个对象互相引用却并未其他对象引用则销毁这两个对象.
+--如果只是调用:Circle(5);-函数.那么在this.r=r;这样代码执行完后,该函数便会被销毁(全部内部对象).
+
+--但调用:var c = new Circle(1.0)后.new修饰符会先生成一个函数的副本然后返回这个副本的引用(注意不是原函数的引用).然后把'1.0'作为参数执行该副本.
+--this.r=r;等于给当前副本添加了一个属性.
+
+--关于new,如果函数结束时没有return语句,或是return ;或是return 1|1.5|'123'|true等基本类型.
+--这种情况在var ct = new FunctionName(5);时,js解析器会进行三部操作.
+--1.var ct = {};创建名为ct的空对象.
+--2.在堆中复制FunctionName对象的另一个实体(将该实体的prototype指向原实体的prototype),然后让ct指向该实体.
+--3.执行副本代码,把5传进去.由于该实体被引用,所以该实体下所有属性都不会被销毁.
+
+--如果函数结束时存在return语句,并且返回的是引用类型,例如:{}-空对象,[]-空数组,function(){}-空函数.
+--则js解析器会进行另外的操作.
+--会将5带入函数并执行,将返回的引用类型赋予变量ct,而ct.prototype指向的是Object(所有对象的顶级prototype).
+--原函数内的所有对象因为该函数执行环境的结束而被销毁,而返回的引用类型例外,因为它正被其它变量所引用.
+
+--总之使用了new修饰符,是一定会返回引用类型的,如果不是return所返回的,那么就是该函数自身的副本引用.
+
+
+
+//第2种写法  
+var Circle = function() {
+    var obj = new Object();  
+    obj.PI = 3.14159;  
+    obj.area = function(r) {  
+    	return this.PI * r * r;
+    }
+    return obj;  
+}  
+var c = new Circle(); //返回的是obj对象.
+alert( c.area(3) );  
+
+
+//第3种写法  
+var Circle = function(){};  
+Circle.PI = 3.14159;  
+Circle.Area = function( r ) {
+       return this.PI * r * r;  
+}
+alert( Circle.Area( 1.0 ) );
+var c = new Circle();//变量c没有任何内部对象除了(prototype,指向Circle的prototype)
+
+Circle.PI;--静态属性,只能通过类名直接调用.
+Circle.Area(1.0);--静态方法,只能通过类名直接调用.
+--其实,这是因为PI,Area只是属于Circle对象的两个子对象罢了,而通过new是无法得到的.因为new相当于执行了一遍Circle函数
+
+var Circle = function(){
+	var t = 5;
+	this.s = 6;
+	this.c = 12;
+	this.sc = this.s+this.c;
+	this.add = function(){
+		alert(t+this.s);
+	};
+
+	function sub(){
+		add();
+	};
+	sub(); //undefined 
+};
+var c = new Circle();
+c.t // error --函数内部var修饰的变量(不管是基本类型还是引用类型),作用域只在函数内部(函数内部一个属性).而不能作为函数的一个属性
+c.s // 6 --this修饰的变量作为函数属性.
+c.add(); //s is not defined --
+
+
+js中变量的四种类型.
+1.内部属性(方法).在函数内部以var修饰的属性(方法),这些属性在函数外部是无法访问的.
+--或是说函数的实例对象是无法访问的(通过new创建的对象),这些属性可以被这些属性调用(函数内var属性被函数内var方法调用)
+--这些属性(方法)也可以被成员属性(方法)调用.
+
+2.成员属性(方法).在函数内部以this修饰的属性(方法),可以获得内部属性进行运算,可以被this修饰的属性(方法)使用(在使用时要添加this表示调用的是成员属性).
+--注意!!! 内部属性(方法)不能调用成员属性(方法),调用成员属性会出现undefined,调用成员方法会显示is not defined.
+
+3.共有属性(方法),prototype对象内的属性(方法).prototype上的属性(引用类型:对象与函数)是成员们(类的每个实例)共享的.一般prototype对象中存放方法(达到类似java中方法区的概念.如果方法放在函数内部用this修饰则每次new的新对象都会存在这个方法的副本).
+--共有属性是实时的,修改后会立即反应在每个实例上.
+--注意!!! prototype是实现继承的基本方式(原型继承-核心概念,让子类的prototype指向父类实例).
+
+----继承::
+--原型继承的缺点,因为prototype中的属性是共有属性,所以全部子类的实例都会使用共有的父类实例(因为子类的prototype指向的是父类实例).
+--为了解决原型继承的缺点,我们可以使用构造函数的方式来实现.
+--在子类构造函数中使用SuperClassName.call(this)的方式,重新创建父类对象,并将父类对象的属性添加到当前执行环境,来覆盖掉prototype对象中共有的父类实例属性.
+--因为原型链在引用时,是先找当前执行环境下的属性,没有再去找当前执行环境下prototype中的属性,如果还是没有就找prototype中prototype的属性.
+
+--将原型继承(B.prototype = new A();)和借用构造函数(A.call(this);)结合起来便是使用次数最多的继承方式--组合继承!
+--组合继承的缺点:原型继承时会创建一次父类实例,每次借用构造函数时也会创建一次父类实例.
+--使用另一种方式可以避免这种现象--寄生组合式继承.
+--将父类的prototype属性,赋予一个空对象的prototype然后,将该空对象赋予子类的prototype属性.这样既免去了实例化父类的麻烦又能保持原型链的结构一致.
+--另一种方法(直接让子类prototype等于父类prototype,缺点原型链结构不一致,但是在isPrototypeOf,instanceof判断下结构与寄生模式是一致的).
+--将(B.prototype = new A(); --改为: B.prototype = A.prototype;区别在于,前者子类的prototype指向的是父类的实例,后者子类prototype指向的是父类prototype).
+
+
+4.类(静态)属性(方法),A.PI=3.14159;A.AREA = function(r){this.PI*r*r};类属性(方法)在创建实例时不会被获得这些属性.
+--类属性(方法)中引用的变量不加this表示只引用当前执行环境下的属性(全局属性与外部属性).
+--加this,只会引用类属性
+--如果加this并且使用了 A.AREA.call(a),则会按顺序引用a对象的成员属性/共有属性.
+
+var PI = '全局属性';
+function Circle(){
+	var PI = '内部属性';
+	this.PI = '成员属性';
+}  
+Circle.PI = '类属性';  
+Circle.prototype.PI = '共有属性'; 
+Circle.Area = function() {
+       console.log(this.PI);  
+}
+Circle.Area();//类属性,只会显示类属性,如果类属性为空,则显示undefined.
+Circle.Area.call(new Circle());//成员属性,如果成员属性为空则显示共有属性.两个都为空显示undefined
+
+//不加this,变量的值是,当前执行环境下的值.ha()--'外部属性'(如果没有外部属性就是全局属性),Circle.Area();--'全局属性'
+//不会寻找类属性/共有属性/成员属性/内部属性.
+
+
+js解析器优先执行顺序:内部属性>成员属性>共有属性>类属性
 
 
 
 
 
 
+function A(name){this.name = name;}
+function B(name){
+	A.call(this,name);
+}
+A.prototype.sayName = function(){console.log(name);}
+B.prototype = A.prototype;
+var b = new B('san');
 
 
+B.prototype = new A();
 函数的两种声明方式,函数声明提升,匿名函数(拉姆达函数)
 
 
 
 
-
-
 <script type="text/javascript" charset="utf-8">
-function object(o){  //将子类的定义,原型赋值,创造子类对象放在一个函数中.
-	function F(){}; //定义子类
-	F.prototype = o; //原型赋值
-	return new F(); //创造子类对象
-}
 
-function inheritPrototype(Sub, Super){ //构造函数.
-	var prototype = object(Super.prototype); //创建对象
-	prototype.constructor = Sub; //增强对象
-	Sub.prototype = prototype; //指定对象
-}
 
-function A(){}
-A.prototype.sayName = function(){alert('123');};
-function B(){
-	A.call(this);
+function Person(){    
+    var name = "default";
+    this.getName = function(){    
+        return name;    
+    },    
+    this.setName = function(newName){    
+        name = newName;    
+    }
 }
-inheritPrototype(B,A);
-
-var b = new B();
-b.sayName();
+var p = new Person(); 
+//返回一个person对象,该对象有两个对象(也可以说是函数:getName,setName),这两个属性中引用了外部变量name,该对象的prototype就是Person的prototype,prototype.constructor指向Person()函数.
+//可以简化为:
+function Person(){
+	var name = "default";
+	this.sayName = function(){
+		alert(name);
+	}
+	return {
+		getName:function(){
+			return name;
+		},
+		setName:function(newName){
+			name = newName;
+		}
+	};
+}
+//返回一个匿名对象,这个对象的prototype是匿名类的prototype,指向object.没有prototype.constructor属性.
+//sayName对象是无法获得的.可以改成:
+function Person(){
+	var name = "default";
+	var sayName = function(){
+		alert(name);
+	}
+	return {
+		getName:function(){
+			return name;
+		},
+		setName:function(newName){
+			name = newName;
+		},
+		sayName:sayName //可以访问.
+	};
+}
 
 
 </script>
