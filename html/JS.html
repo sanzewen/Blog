@@ -1264,20 +1264,130 @@ js解析器优先执行顺序:内部属性>成员属性>共有属性>类属性
 
 
 
+关于typeof修饰符.
+只会返回六种值:
+1.基本类型-undefined,number,string,boolean
+2.引用类型-object,funtion(function也是引用类型)
+
+typeof判断引用类型很粗糙(数组日期类型无法判断),所以可以使用instanceof来判断引用类型.
+var fn = function () { };
+console.log(fn instanceof Object);//true
+console.log(fn instanceof Function);//true
+
+instanceof修饰符的两个参数,第一个(A)一般是对象,第二个(B)一般是函数.
+instanceof的判断规则是：沿着A的__proto__这条线来找，同时沿着B的prototype这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false。
 
 
 
-function A(name){this.name = name;}
-function B(name){
-	A.call(this,name);
+
+
+函数与对象的关系!
+
+一切Object实例都是通过function创建的,而function也是Object的一种(因为function.prototype的顶端必定是Object,原型链).
+function Fn() {
+    this.name = 'san';
+    this.year = 1994;
 }
-A.prototype.sayName = function(){console.log(name);}
-B.prototype = A.prototype;
-var b = new B('san');
+var fn1 = new Fn();
+字面量初始化的对象:
+var obj = { a: 10, b: 20 };
+var arr = [5, 'x', true];
+
+var obj = new Object();
+obj.a = 10;
+obj.b = 20;
+var arr = new Array();
+arr[0] = 5;
+arr[1] = 'x';
+arr[2] = true;
+
+而Object()与Array()也是函数.可以用typeof检测.
 
 
-B.prototype = new A();
-函数的两种声明方式,函数声明提升,匿名函数(拉姆达函数)
+每个函数的prototype除了自己添加的属性外,还有两个默认的属性:
+1.constructor,指向prototype所属的函数.
+2.[[prototype]],指向原型链中上一个对象的prototype.如果没有父类默认指向Object.prototype
+
+每一个对象都有个隐藏属性'__proto__',这个属性引用了创建该对象的函数的prototype属性.'__proto__'为隐式原型.
+
+
+-------深入理解原型链!!!###
+-------深入理解原型链!!!###
+-------深入理解原型链!!!###
+首先要了解函数,prototype,实例之间的引用关系.
+例子:
+function Foo(){}
+var f = new Foo();
+这里形成了,函数Foo,对象f,以及prototype对象-Foo.prototype
+
+1.实例(f)与函数(Foo)之间没有直接引用关系.
+2.实例(f)通过'__proto__'隐藏变量(js代码中不能访问)引用Foo.prototype对象(注意:任何对象都有'__proto__'变量,'__proto__'总是指向创建它的函数的prototype对象).
+3.Foo.prototype对象中有两个变量-1.constructor,2.__proto__.
+	Foo.prototype.constructor指向函数Foo(注意'constructor'只能指向函数).
+	Foo.prototype.__proto__指向父级prototype,在没有显式父级下指向Object.prototype
+4.Foo函数通过prototype变量指向Foo.prototype对象. 
+	Foo函数,前面说过js中一切皆是对象,而且任何对象都有'__proto__'变量,'__proto__'总是指向创建它的函数的prototype对象.
+	Foo函数的__proto__指向Function.prototype.(所有的函数都是通过Function()函数创建的)
+5.Foo.prototype对象的'__proto__'指向Object.prototype,说明Foo.prototype对象(任何函数.prototype.__proto__都指向Object.prototype)是由Object()函数创建的.
+
+6.Function.prototype.constructor指向Function()函数.Function().__proto__指向Function.prototype,说明Function是被自己创建.
+
+7.Funcion.prototype.__proto__指向Object.prototype(任何函数.prototype.__proto__都指向Object.prototype)
+
+8.Object()函数的__proto__指向Function.prototype因为所有的函数都是由Function创建.
+
+9.Object.prototype.__proto__指向null,原型链由此结束.
+
+
+从以上得出的总结:
+实例,函数,原型皆有__proto__属性.
+实例.__proto__指向函数.原型.(指向创建它的函数的prototype)
+函数.__proto__指向Function.prototype(一切函数都是由Function创建)
+原型.__proto__指向Object.prototype(一切prototype对象都是由Object创建)
+
+Function.__proto__也指向Function.prototype(一切函数都是由Function创建,自己创建了自己)
+Function.prototype.__proto__指向Object.prototype(一切prototype对象都是由Object创建)
+
+Object.__proto__也指向Function.prototype(一切函数都是由Function创建)
+Object.prototype只能指向null,从而结束原型链
+
+函数与对应原型相互指向.
+函数.prototype指向原型.
+原型.constructor指向函数.
+
+
+
+-----关于执行上下文.
+js解析器在真正执行一段代码之前,会做一些准备工作(将变量的声明和函数的声明提升到当前代码段的最上方,给this赋值).
+
+js在全局代码中,函数体内部,eval中的代码中都会进行准备工作.
+
+
+
+
+
+
+
+
+
+
+
+
+function show(x) {
+	var t;
+    console.log(t ind);    // undefined
+    console.log(typeof 10);   // number
+    console.log(typeof 'abc'); // string
+    console.log(typeof true);  // boolean
+
+    console.log(typeof function () {});  //function
+
+    console.log(typeof [1, 'a', true]);  //object
+    console.log(typeof { a: 10, b: 20 });  //object
+    console.log(typeof null);  //object
+    console.log(typeof new Number(10));  //object
+}
+show();
 
 
 
