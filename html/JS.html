@@ -1358,12 +1358,209 @@ Object.prototype只能指向null,从而结束原型链
 
 
 -----关于执行上下文.
+-----关于执行上下文.
+-----关于执行上下文.
+-----关于执行上下文.
+
 js解析器在真正执行一段代码之前,会做一些准备工作(将变量的声明和函数的声明提升到当前代码段的最上方,给this赋值).
 
 js在全局代码中,函数体内部,eval中的代码中都会进行准备工作.
+--注意:函数声明的提升优先级大于变量声明的提升
+var gobal = 'gobal';
+function todo(x){
+	...
+	var a = 5;
+	function say(){
+		
+	}
+	var hi = function (){
+
+	}
+	this.wei = x;
+	console.log(arguments);
+	console.log(gobal);
+}
+todo(10);
+<==>声明提升后
+var gobal;
+gobal = 'gobal';
+function todo(x){
+	x = 10; //给参数赋值
+	arguments[arguments.length] = x; //arguments对象初始化
+
+	this = window; //给this赋值
+	function say(){ //函数声明提升
+		
+	}
+	var a; //变量声明提升
+	var hi; //变量声明提升
+	...
+	a = 5;
+	hi = function (){
+
+	}
+	window.wei = x;
+	console.log(arguments);
+	console.log('gobal'); //全局变量在代码执行前直接赋值.
+}
+todo(10);
+
+准备工作:
+1.将变量声明提升
+2.将函数声明提升
+3.给this赋值,函数被调用时的环境对象.
+
+4.函数参数的赋值
+5.函数arguments对象初始化
+6.全局变量在代码执行前直接赋值.
+
+给执行上下文环境下一个通俗的定义——在执行代码之前，把将要用到的所有的变量都事先拿出来，有的直接赋值了，有的先用undefined占个空。
+
+
+-----关于this
+-----关于this
+-----关于this
+-----关于this
+
+在函数中this到底取何值，是在函数真正被调用执行的时候确定的，函数定义的时候确定不了。
+因为this的取值是执行上下文环境的一部分，每次调用函数，都会产生一个新的执行上下文环境。
+
+一种需要注意的情况:
+var obj = {
+	x:10,
+	fn:function(){
+		function f(){
+			console.log(this);//window
+			console.log(this.x);//undefined
+		}
+		f();
+	}
+};
+-如果要在函数内部使用正确的this对象可以这样改:
+var obj = {
+	x:10,
+	fn:function(){
+		function f(){
+			console.log(this);
+			console.log(this.x);
+		}
+		f.call(this); //函数fn的this对象是obj,则f.call后函数f内部this便是obj
+	}
+};
+或者如下
+function a(){
+	this.x = 10;
+	this.fn = function(){
+		this.f = function(){
+			console.log(this);
+			console.log(this.x);
+		}
+		this.f();
+	}
+}
+
+
+---利用this可以模拟java的多态特性.
+
+function todo(){
+	this.sayName(); //利用this调用不同实例的方法.
+}
+var san = {sayName:function(){console.log('my name is San');}};
+var bob = {sayName:function(){console.log('my name is Bob');}};
+var susan = {sayName:function(){console.log('my name is Susan');}};
+
+todo.call(san);
+todo.call(bob);
+todo.call(susan);
+
+
+-----关于执行上下文(执行环境或是说执行上下文栈)
+
+var max = 10,
+	fn = function(x){
+		console.log(max);
+	};
+(function(f){
+	var max = 100;
+	f(15);
+})(fn)
 
 
 
+-----js语法糖!!!
+-----js语法糖!!!
+-----js语法糖!!!
+-----js语法糖!!!
+var x1 = 12,
+	x2 = 15;
+function add(a,b){
+	console.log(a+b);
+}
+add(x1,x2);
+--以上代码可以转化成:
+var add = function(a,b){//使用匿名函数
+	console.log(a+b);
+}
+--继续简化:去掉add变量.只会调用一次的匿名函数.
+(function(a,b){
+	console.log(a+b);
+})(x1,x2);
+
+
+
+
+----关于作用域,作用域链(with与try/catch修饰符会修改作用域链),执行环境,原型链,this
+首先js中没有其他语言中块级作用域(ES6有let声明的变量)的概念,能创建作用域的只有函数和本身的全局作用域.
+作用域与执行环境的是一对多的关系,一个作用域可以没有执行环境,也可以拥有多个执行环境.
+例如:
+function fn(name){ // 函数fn的作用域.
+	return function(){
+		console.log(name);
+	}
+}
+console.log('haha');
+// 函数fn,只是声明并没有被调用过,所以不存在执行环境.
+
+//函数fn被调用了.执行环境准备期间会初始化arguments对象等等.这行代码执行完后,fn的执行环境并不会被销毁,因为返回的匿名函数的执行环境中引用了,所在执行环境中(fn)的name属性
+var a = fn('san');
+var b = fn('susan');//函数fn又被调用.
+//函数fn的作用域存在两个执行环境.
+
+a = null;//匿名函数没有被引用后,会被销毁.对应的执行环境以及fn的执行环境会被销毁.
+b = null;//同上.
+
+
+----作用域链
+首先作用域链在执行环境准备期间就定义好了.
+作用域链的作用跟原型链差不多,子级作用域可以访问父级作用域中的属性.
+同一父级作用域下不同子级作用域之间可以互相访问(但作用域内部的属性无法获得).
+作用域链的层级是根据函数被创建的位置决定的.
+var arg = 1;
+function a(){
+	console.log(name);//不能访问
+	function aa(){
+
+	}
+}
+function b(){
+	var name;
+	a();//可以调用.都属于同一父级作用域下(全局作用域)
+	aa();//不能调用.
+	console.log(arg);//可以访问,如果在当前作用域对应的执行环境对象中,没有找到该属性,会根据作用域链找父级作用域的执行环境对象中的属性.
+}
+
+
+
+----闭包的疑问.
+
+var a = [];
+for(var i = 0; i < 10; i++){
+	a[i] = (function (arg){
+		return function (){
+			console.log(arg);
+		}
+	})(i);
+}
 
 
 
