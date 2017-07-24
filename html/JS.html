@@ -1549,6 +1549,46 @@ function b(){
 	console.log(arg);//可以访问,如果在当前作用域对应的执行环境对象中,没有找到该属性,会根据作用域链找父级作用域的执行环境对象中的属性.
 }
 
+--另一个函数作用域问题
+function a(y){
+	var x = 5;
+	b();
+}
+function b(){
+	console.log(x+y);
+}
+函数b中不能访问属性x,y.因为函数作用域链在函数声明时便确定下来,这点可以参考java.
+
+
+
+
+--关于闭包
+for (var i=1; i<=9; i++) {
+    setTimeout( function timer(){
+    console.log( i );
+    },1000 );
+}
+以上代码输出的是 10,10,10...
+
+
+
+for (var i=1; i<=9; i++) {
+	setTimeout( (function timer(i){
+		function a(){
+			console.log( i );
+		}
+		a();
+	})(i),1000 );
+}
+--函数外部添加用括号,表示将该函数闭包.将i值作为参数传入.每次timer函数在声明时,由于之前声明好了是闭包所以其执行环境不会被销毁故而将每次的i值保存了下来.
+(疑问:函数的执行环境到底是调用时初始化的还是声明时,函数作用域是否存储了属性?)
+
+--以上代码可以简化为:
+for (var i=1; i<=9; i++) {
+	setTimeout( (function timer(i){
+			console.log( i );
+	})(i),1000 );
+}
 
 
 ----闭包的疑问.
@@ -1561,30 +1601,112 @@ for(var i = 0; i < 10; i++){
 		}
 	})(i);
 }
+以上代码中,作为返回值的匿名函数并没有被执行,但js解释器还是知道内部函数引用了外部函数执行环境中的属性,在外部函数执行结束后没有销毁外部执行环境.
+js解释器是如何知道,在没有调用该函数时,函数内部的属性引用?
 
-
-
-
-
-
-
-
-
-function show(x) {
-	var t;
-    console.log(t ind);    // undefined
-    console.log(typeof 10);   // number
-    console.log(typeof 'abc'); // string
-    console.log(typeof true);  // boolean
-
-    console.log(typeof function () {});  //function
-
-    console.log(typeof [1, 'a', true]);  //object
-    console.log(typeof { a: 10, b: 20 });  //object
-    console.log(typeof null);  //object
-    console.log(typeof new Number(10));  //object
+var a = {};
+var fn = function (arg){
+    var arg1 = '1';
+    return function(arg2){
+        console.log(arg,arg1,arg2);
+    }
 }
-show();
+a.b = fn('0');
+
+合理的解释是:js解释器在执行函数声明的代码时,会确定函数作用域,在执行到console.log(arg);代码时会查找arg属性,在上级作用域找到后便会在作用域链的上级作用域上添加这个引用变量.所以上级函数在执行结束后执行环境不会被销毁.
+作用域链中上级作用域可以通过chrome控制台查看,其中存储着两个属性,arg,arg1.其值分为是0,1.
+
+-我有一种猜想,不知道对不对.
+js解释器在声明内部函数时,会先检测函数内部属性是否引用了外部变量,如果引用了便在该函数的作用域链(scope)上添加外部作用域.并在该作用域中添加引用的属性.
+而js解释器在销毁外部函数的执行环境时,会检测子作用域的作用域链是否添加了自身作用域,如果存在则是互相引用,如果内部函数还被其他变量引用(非当前作用域下变量),继而js解释器不会销毁该执行环境,由此闭包产生.
+
+
+----闭包并不需要
+var fn ;
+
+function a (){
+	var name = 'a';
+	fn = function (){
+		console.log(name);
+	}
+	return fn;
+}--闭包
+var b ={};
+b.c = a();
+
+
+var fn ;
+
+function a (){
+	var name = 'a';
+	fn = function (){
+		console.log(name);
+	}
+}--闭包
+var b ={};
+a();
+b.c = fn; --效果同上.
+
+var fn ;
+
+function a (){
+	var name = 'a';
+	fn = function (){
+		console.log('c');
+	}
+}--不是闭包.
+
+
+
+闭包应该是发生在函数声明时,而不是调用时.
+
+如果某函数的上级作用域不是Global(全局作用域),并且该函数被上上级执行环境中的属性引用,那么便发生了闭包.(个人猜测)
+-上面定义的前提(在下级作用域中存在属性引用了上级执行环境中的属性,该函数的作用域链中添加上级作用域,如果没有该函数的作用域链中只存在gobal作用域)
+例如:
+function a(){
+	var name = 'a';
+	function b(){
+
+	}
+	return b;
+}
+b函数是a函数的子级,但由于没有引用a执行环境中的属性,所以函数b的作用域链中只有一个作用域Gobal.
+即使return b也不会形成闭包.
+
+function a(){
+	var name = 'a';
+	function b(){
+		alert(name);
+	}
+	return b;
+}
+此时b作用域链中上级作用域是a,其中有一个属性name:"a".当a执行完毕时,检测b作用域链发现保存着a的作用域,则不会销毁a的执行环境.
+
+
+----块级作用域
+----块级作用域
+----块级作用域
+
+for(var i = 0;i < 10;i++){
+	...
+}
+alert(i);//9.在for循环中声明的i可以在for循环外访问.是因为js没有块级作用域.
+
+<==>
+
+var i;
+for(i=0;i < 10;i++){
+	...
+}
+alert(i);
+
+js中只有函数才有独立的作用域,我们可以使用匿名函数来模拟块级作用域的实现.
+(function(i){
+	...
+})(i);
+
+
+
 
 
 
